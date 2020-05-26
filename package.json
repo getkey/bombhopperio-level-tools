@@ -1,5 +1,5 @@
 {
-  "name": "bombhopperio-level",
+  "name": "bombhopperio-level-tools",
   "license": "Apache-2.0",
   "version": "0.0.0",
   "description": "Library to check that a level file is valid",
