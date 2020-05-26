@@ -9,7 +9,7 @@ test('is an object', () => {
 	expect(() => validator(undefined)).toThrow();
 
 	// valid level
-	expect(validator(myLevel)).toBe(true);
+	expect(validator(myLevel)).toBe(0);
 });
 
 test('only 2 stars timings', () => {
@@ -26,7 +26,7 @@ test('only 2 stars timings', () => {
 	expect(validator({
 		name: 'tsner',
 		timings: [10, 2],
-	})).toBe(true);
+	})).toBe(0);
 });
 
 test('2nd star > 3rd star', () => {
@@ -38,7 +38,19 @@ test('2nd star > 3rd star', () => {
 	expect(validator({
 		...myLevel,
 		timings: [12345, 12345],
-	})).toBe(true);
+	})).toBe(0);
+});
+
+test('timings are ints', () => {
+	expect(() => validator({
+		...myLevel,
+		timings: [23.12, 45],
+	})).toThrow();
+
+	expect(() => validator({
+		...myLevel,
+		timings: [23, 45.021],
+	})).toThrow();
 });
 
 test('timings <= 0', () => {
@@ -55,12 +67,19 @@ test('timings <= 0', () => {
 	expect(validator({
 		...myLevel,
 		timings: [0, 0],
-	})).toBe(true);
+	})).toBe(0);
 });
 
 test('name not empty', () => {
 	expect(() => validator({
 		...myLevel,
 		name: '',
+	})).toThrow();
+});
+
+test('formatVersion is int', () => {
+	expect(() => validator({
+		...myLevel,
+		formatVersion: 123.23,
 	})).toThrow();
 });

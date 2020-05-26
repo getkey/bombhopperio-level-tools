@@ -1,5 +1,6 @@
 import Ajv from 'ajv';
 
+// TODO: set "additionalProperties": false
 import schema from './schema.json';
 
 const ajv = new Ajv();
@@ -15,5 +16,5 @@ export function validator(level: any) {
 		throw new Error('Time to get 2rd star must be higher than time to get 3rd star');
 	}
 
-	return true;
+	return level.formatVersion || 0;
 }

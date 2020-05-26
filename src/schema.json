@@ -26,6 +26,12 @@
 			],
 			"minItems": 2,
 			"additionalItems": false
+		},
+		"formatVersion": {
+			"type": "integer",
+			"description": "The version number of the schema the file corresponds to",
+			"minimum": 0
 		}
-	}
+	},
+	"required": ["name", "timings"]
 }
