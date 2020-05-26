@@ -1,4 +1,13 @@
 {
+  "name": "bombhopperio-level",
+  "license": "Apache-2.0",
+  "version": "0.0.0",
+  "description": "Library to check that a level file is valid",
+  "homepage": "https://github.com/getkey/bombhopperio-level",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/getkey/bombhopperio-level.git"
+  },
   "dependencies": {
     "ajv": "^6.12.2"
   },
