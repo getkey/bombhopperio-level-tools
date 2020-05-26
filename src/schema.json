@@ -4,6 +4,8 @@
 	"title": "Level",
 	"description": "A BombHopper.io level",
 	"type": "object",
+	"additionalProperties": false,
+	"required": ["name", "timings"],
 	"properties": {
 		"name": {
 			"type": "string",
@@ -31,7 +33,51 @@
 			"type": "integer",
 			"description": "The version number of the schema the file corresponds to",
 			"minimum": 0
+		},
+		"entities": {
+			"type": "array",
+			"items": {
+				"oneOf": [
+					{
+						"type": "object",
+						"additionalProperties": false,
+						"required": ["type", "params"],
+						"properties": {
+							"type": {
+								"type": "string",
+								"enum": ["normal", "ice", "bouncy", "breakable"]
+							},
+							"params": {
+								"type": "object",
+								"additionalProperties": false,
+								"required": ["vertices"],
+								"properties": {
+									"isStatic": {
+										"type": "boolean"
+									},
+									"vertices": {
+										"type": "array",
+										"minItems": 3,
+										"items": {
+											"type": "object",
+											"additionalProperties": false,
+											"required": ["x", "y"],
+											"properties": {
+												"x": {
+													"type": "number"
+												},
+												"y": {
+													"type": "number"
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				]
+			}
 		}
-	},
-	"required": ["name", "timings"]
+	}
 }

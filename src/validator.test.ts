@@ -83,3 +83,174 @@ test('formatVersion is int', () => {
 		formatVersion: 123.23,
 	})).toThrow();
 });
+
+test('empty entities', () => {
+	expect(validator({
+		...myLevel,
+		entities: [],
+	})).toBe(0);
+});
+
+test('entity has to be in the proper format', () => {
+	[null, undefined, 1232132123.432432432, [], {}, 'estaioneariots'].forEach((trash) => {
+		expect(() => validator({
+			...myLevel,
+			entities: [trash],
+		})).toThrow();
+	});
+
+});
+
+['normal', 'ice', 'bouncy', 'breakable'].forEach((blockType) => {
+	test(`${blockType} works`, () => {
+		expect(validator({
+			...myLevel,
+			entities: [
+				{
+					type: blockType,
+					params: {
+						isStatic: false,
+						vertices: [
+							{ x: 1223123, y: 84932749 },
+							{ x: 1223, y: 8493249 },
+							{ x: 23123, y: 932749 },
+						]
+					}
+				}
+			],
+		})).toBe(0);
+	});
+
+	test(`${blockType} should have at least 2 vertices`, () => {
+		expect(() => validator({
+			...myLevel,
+			entities: [
+				{
+					type: blockType,
+					params: {
+						isStatic: false,
+						vertices: [
+							{ x: 1223123, y: 84932749 },
+							{ x: 23123, y: 932749 },
+						]
+					}
+				}
+			],
+		})).toThrow();
+	});
+
+	test(`${blockType} should have at least 2 vertices`, () => {
+		expect(() => validator({
+			...myLevel,
+			entities: [
+				{
+					type: blockType,
+					params: {
+						isStatic: false,
+						vertices: [
+							{ x: 1223123, y: 84932749 },
+							{ x: 23123, y: 932749 },
+						]
+					}
+				}
+			],
+		})).toThrow();
+	});
+});
+
+test('type is always required', () => {
+	expect(() => validator({
+		...myLevel,
+		entities: [
+			{
+				params: {
+					isStatic: false,
+					vertices: [
+						{ x: 1223123, y: 84932749 },
+						{ x: 1289803123, y: 84932749 },
+						{ x: 23123, y: 932749 },
+					]
+				}
+			}
+		],
+	})).toThrow();
+});
+
+test('params is always required', () => {
+	expect(() => validator({
+		...myLevel,
+		entities: [
+			{
+				type: 'normal',
+			}
+		],
+	})).toThrow();
+});
+
+test('vertices is always required for blocks', () => {
+	expect(() => validator({
+		...myLevel,
+		entities: [
+			{
+				type: 'normal',
+				params: {
+					isStatic: false,
+				}
+			}
+		],
+	})).toThrow();
+});
+
+test('isStatic is optional for blocks', () => {
+	expect(validator({
+		...myLevel,
+		entities: [
+			{
+				type: 'normal',
+				params: {
+					vertices: [
+						{ x: 1223123, y: 84932749 },
+						{ x: 1289803123, y: 84932749 },
+						{ x: 23123, y: 932749 },
+					]
+				}
+			}
+		],
+	})).toBe(0);
+});
+
+test('vertices can have x, y and that\'s it', () => {
+	expect(() => validator({
+		...myLevel,
+		entities: [
+			{
+				type: 'normal',
+				params: {
+					isStatic: false,
+					vertices: [
+						{ x: 1223123, y: 84932749, crap: true },
+						{ x: 1223, y: 8493249 },
+						{ x: 23123, y: 932749 },
+					]
+				}
+			}
+		],
+	})).toThrow();
+
+	expect(() => validator({
+		...myLevel,
+		entities: [
+			{
+				type: 'normal',
+				params: {
+					isStatic: false,
+					vertices: [
+						{ x: 1223123 },
+						{ x: 1223, y: 8493249 },
+						{ x: 23123, y: 932749 },
+					]
+				}
+			}
+		],
+	})).toThrow();
+});
