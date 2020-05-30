@@ -254,3 +254,189 @@ test('vertices can have x, y and that\'s it', () => {
 		],
 	})).toThrow();
 });
+
+test('entities always and only have type and params', () => {
+	expect(validator({
+		...myLevel,
+		entities: [
+			{
+				type: 'normal',
+				params: {
+					isStatic: false,
+					vertices: [
+						{ x: 1223123, y: 1234567 },
+						{ x: 1223, y: 8493249 },
+						{ x: 23123, y: 932749 },
+					]
+				}
+			}
+		],
+	})).toEqual(0);
+
+	expect(() => validator({
+		...myLevel,
+		entities: [
+			{
+				params: {
+					isStatic: false,
+					vertices: [
+						{ x: 1223123, y: 1234567 },
+						{ x: 1223, y: 8493249 },
+						{ x: 23123, y: 932749 },
+					]
+				}
+			}
+		],
+	})).toThrow();
+
+	expect(validator({
+		...myLevel,
+		entities: [
+			{
+				type: 'text',
+				params: {
+					x: 500,
+					y: 300,
+					copy: {
+						en: "This is the default level!\nEdit it to your liking.",
+						fr: "Voici le niveau par défaut\nÉdite comme il te plait.",
+					},
+					anchor: {
+						x: 0.5,
+						y: 0.5,
+					},
+				},
+			},
+		],
+	})).toEqual(0);
+
+	['text', 'normal', 'bouncy', 'breakable'].forEach((type) => {
+		expect(() => validator({
+			...myLevel,
+			entities: [
+				{
+					type,
+				},
+			],
+		})).toThrow();
+	});
+});
+
+test('x, y, copy and anchor are required', () => {
+	expect(() => validator({
+		...myLevel,
+		entities: [
+			{
+				type: 'text',
+				params: {
+					y: 300,
+					copy: {
+						en: "This is the default level!\nEdit it to your liking.",
+					},
+					anchor: {
+						x: 0.5,
+						y: 0.5,
+					},
+				},
+			},
+		],
+	})).toThrow();
+
+	expect(() => validator({
+		...myLevel,
+		entities: [
+			{
+				type: 'text',
+				params: {
+					x: 500,
+					copy: {
+						en: "This is the default level!\nEdit it to your liking.",
+					},
+					anchor: {
+						x: 0.5,
+						y: 0.5,
+					},
+				},
+			},
+		],
+	})).toThrow();
+
+	expect(() => validator({
+		...myLevel,
+		entities: [
+			{
+				type: 'text',
+				params: {
+					x: 500,
+					y: 300,
+					anchor: {
+						x: 0.5,
+						y: 0.5,
+					},
+				},
+			},
+		],
+	})).toThrow();
+
+	expect(() => validator({
+		...myLevel,
+		entities: [
+			{
+				type: 'text',
+				params: {
+					x: 500,
+					y: 300,
+					copy: {
+						en: "This is the default level!\nEdit it to your liking.",
+					},
+				},
+			},
+		],
+	})).toThrow();
+});
+
+test('text can have anything as a language code', () => {
+	expect(validator({
+		...myLevel,
+		entities: [
+			{
+				type: 'text',
+				params: {
+					x: 500,
+					y: 300,
+					copy: {
+						en: "This is the default level!\nEdit it to your liking.",
+						langaugeCodeThatDoesntExist: 'bleh',
+					},
+					anchor: {
+						x: 0.5,
+						y: 0.5,
+					},
+				},
+			},
+		],
+	})).toEqual(0);
+});
+
+test('text needs english', () => {
+	expect(() => validator({
+		...myLevel,
+		entities: [
+			{
+				type: 'text',
+				params: {
+					x: 500,
+					y: 300,
+					copy: {
+						it: 'pizza',
+						de: 'Wurst',
+					},
+					anchor: {
+						x: 0.5,
+						y: 0.5,
+					},
+				},
+			},
+		],
+	})).toThrow();
+});

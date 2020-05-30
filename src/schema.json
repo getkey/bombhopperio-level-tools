@@ -1,6 +1,25 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
-	"$id": "http://example.com/product.schema.json",
+	"$id": "https://bombhopper.io/level.schema.json",
+	"definitions": {
+		"point": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["x", "y"],
+			"properties": {
+				"x": {
+					"type": "number"
+				},
+				"y": {
+					"type": "number"
+				}
+			}
+		},
+		"start_timing": {
+			"type": "integer",
+			"minimum": 0
+		}
+	},
 	"title": "Level",
 	"description": "A BombHopper.io level",
 	"type": "object",
@@ -16,14 +35,12 @@
 			"type": "array",
 			"items": [
 				{
-					"type": "integer",
 					"description": "2 stars",
-					"minimum": 0
+					"$ref": "#/definitions/start_timing"
 				},
 				{
-					"type": "integer",
 					"description": "3 stars",
-					"minimum": 0
+					"$ref": "#/definitions/start_timing"
 				}
 			],
 			"minItems": 2,
@@ -58,20 +75,44 @@
 									"vertices": {
 										"type": "array",
 										"minItems": 3,
-										"items": {
-											"type": "object",
-											"additionalProperties": false,
-											"required": ["x", "y"],
-											"properties": {
-												"x": {
-													"type": "number"
-												},
-												"y": {
-													"type": "number"
-												}
+										"items": { "$ref": "#/definitions/point" }
+									}
+								}
+							}
+						}
+					},
+					{
+						"type": "object",
+						"additionalProperties": false,
+						"required": ["type", "params"],
+						"properties": {
+							"type": {
+								"const": "text"
+							},
+							"params": {
+								"type": "object",
+								"additionalProperties": false,
+								"required": ["x", "y", "copy", "anchor"],
+								"properties": {
+									"x": {
+										"type": "number"
+									},
+									"y": {
+										"type": "number"
+									},
+									"copy": {
+										"type": "object",
+										"required": ["en"],
+										"additionalProperties": {
+											"type": "string"
+										},
+										"properties": {
+											"en": {
+												"type": "string"
 											}
 										}
-									}
+									},
+									"anchor": { "$ref": "#/definitions/point" }
 								}
 							}
 						}
