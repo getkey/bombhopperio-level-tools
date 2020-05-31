@@ -18,6 +18,19 @@
 		"start_timing": {
 			"type": "integer",
 			"minimum": 0
+		},
+		"entity": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["type", "params"],
+			"properties": {
+				"type": {
+					"type": "string"
+				},
+				"params": {
+					"type": "object"
+				}
+			}
 		}
 	},
 	"title": "Level",
@@ -56,66 +69,73 @@
 			"items": {
 				"oneOf": [
 					{
-						"type": "object",
-						"additionalProperties": false,
-						"required": ["type", "params"],
-						"properties": {
-							"type": {
-								"type": "string",
-								"enum": ["normal", "ice", "bouncy", "breakable"]
+						"allOf": [
+							{
+								"$ref": "#/definitions/entity"
 							},
-							"params": {
-								"type": "object",
-								"additionalProperties": false,
-								"required": ["vertices"],
+							{
 								"properties": {
-									"isStatic": {
-										"type": "boolean"
+									"type": {
+										"enum": ["normal", "ice", "bouncy", "breakable"]
 									},
-									"vertices": {
-										"type": "array",
-										"minItems": 3,
-										"items": { "$ref": "#/definitions/point" }
+									"params": {
+										"type": "object",
+										"additionalProperties": false,
+										"required": ["vertices"],
+										"properties": {
+											"isStatic": {
+												"type": "boolean"
+											},
+											"vertices": {
+												"type": "array",
+												"minItems": 3,
+												"items": { "$ref": "#/definitions/point" }
+											}
+										}
 									}
 								}
 							}
-						}
+						]
 					},
 					{
-						"type": "object",
-						"additionalProperties": false,
-						"required": ["type", "params"],
-						"properties": {
-							"type": {
-								"const": "text"
+						"allOf": [
+							{
+								"$ref": "#/definitions/entity"
 							},
-							"params": {
-								"type": "object",
-								"additionalProperties": false,
-								"required": ["x", "y", "copy", "anchor"],
+							{
 								"properties": {
-									"x": {
-										"type": "number"
+									"type": {
+										"const": "text"
 									},
-									"y": {
-										"type": "number"
-									},
-									"copy": {
+									"params": {
 										"type": "object",
-										"required": ["en"],
-										"additionalProperties": {
-											"type": "string"
-										},
+										"additionalProperties": false,
+										"required": ["x", "y", "copy", "anchor"],
 										"properties": {
-											"en": {
-												"type": "string"
-											}
+											"x": {
+												"type": "number"
+											},
+											"y": {
+												"type": "number"
+											},
+											"copy": {
+												"type": "object",
+												"required": ["en"],
+												"additionalProperties": {
+													"type": "string"
+												},
+												"properties": {
+													"en": {
+														"type": "string"
+													}
+												}
+											},
+											"anchor": { "$ref": "#/definitions/point" }
 										}
-									},
-									"anchor": { "$ref": "#/definitions/point" }
+									}
 								}
 							}
-						}
+						]
 					}
 				]
 			}
