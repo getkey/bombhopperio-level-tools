@@ -4,7 +4,7 @@ import myLevel from './levelExamples/my_level.json';
 test('is an object', () => {
 	expect(() => validator([])).toThrow();
 	expect(() => validator(342)).toThrow();
-	expect(() => validator("yo")).toThrow();
+	expect(() => validator('yo')).toThrow();
 	expect(() => validator(null)).toThrow();
 	expect(() => validator(undefined)).toThrow();
 
@@ -298,8 +298,8 @@ test('entities always and only have type and params', () => {
 					x: 500,
 					y: 300,
 					copy: {
-						en: "This is the default level!\nEdit it to your liking.",
-						fr: "Voici le niveau par défaut\nÉdite comme il te plait.",
+						en: 'This is the default level!\nEdit it to your liking.',
+						fr: 'Voici le niveau par défaut\nÉdite comme il te plait.',
 					},
 					anchor: {
 						x: 0.5,
@@ -331,7 +331,7 @@ test('x, y, copy and anchor are required', () => {
 				params: {
 					y: 300,
 					copy: {
-						en: "This is the default level!\nEdit it to your liking.",
+						en: 'This is the default level!\nEdit it to your liking.',
 					},
 					anchor: {
 						x: 0.5,
@@ -350,7 +350,7 @@ test('x, y, copy and anchor are required', () => {
 				params: {
 					x: 500,
 					copy: {
-						en: "This is the default level!\nEdit it to your liking.",
+						en: 'This is the default level!\nEdit it to your liking.',
 					},
 					anchor: {
 						x: 0.5,
@@ -387,7 +387,7 @@ test('x, y, copy and anchor are required', () => {
 					x: 500,
 					y: 300,
 					copy: {
-						en: "This is the default level!\nEdit it to your liking.",
+						en: 'This is the default level!\nEdit it to your liking.',
 					},
 				},
 			},
@@ -405,7 +405,7 @@ test('text can have anything as a language code', () => {
 					x: 500,
 					y: 300,
 					copy: {
-						en: "This is the default level!\nEdit it to your liking.",
+						en: 'This is the default level!\nEdit it to your liking.',
 						langaugeCodeThatDoesntExist: 'bleh',
 					},
 					anchor: {
@@ -439,4 +439,100 @@ test('text needs english', () => {
 			},
 		],
 	})).toThrow();
+});
+
+test('x, y, isStatic and angle are required in endpoint', () => {
+	expect(() => validator({
+		...myLevel,
+		entities: [
+			{
+				type: 'endpoint',
+				params: {
+					y: 360,
+					isStatic: true,
+					rightFacing: true,
+					angle: 0,
+				}
+			},
+		],
+	})).toThrow();
+
+	expect(() => validator({
+		...myLevel,
+		entities: [
+			{
+				type: 'endpoint',
+				params: {
+					x: 900,
+					isStatic: true,
+					rightFacing: true,
+					angle: 0,
+				}
+			},
+		],
+	})).toThrow();
+
+	expect(() => validator({
+		...myLevel,
+		entities: [
+			{
+				type: 'endpoint',
+				params: {
+					x: 900,
+					y: 360,
+					rightFacing: true,
+					angle: 0,
+				}
+			},
+		],
+	})).toThrow();
+
+	expect(() => validator({
+		...myLevel,
+		entities: [
+			{
+				type: 'endpoint',
+				params: {
+					x: 900,
+					y: 360,
+					isStatic: true,
+					rightFacing: true,
+				}
+			},
+		],
+	})).toThrow();
+});
+
+
+test('rightFacing is optional in endpoint', () => {
+	expect(validator({
+		...myLevel,
+		entities: [
+			{
+				type: 'endpoint',
+				params: {
+					x: 900,
+					y: 360,
+					isStatic: true,
+					rightFacing: false,
+					angle: 0,
+				}
+			},
+		],
+	})).toEqual(0);
+
+	expect(validator({
+		...myLevel,
+		entities: [
+			{
+				type: 'endpoint',
+				params: {
+					x: 900,
+					y: 360,
+					isStatic: true,
+					angle: 0,
+				}
+			},
+		],
+	})).toEqual(0);
 });

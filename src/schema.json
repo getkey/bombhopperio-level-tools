@@ -136,6 +136,42 @@
 								}
 							}
 						]
+					},
+					{
+						"allOf": [
+							{
+								"$ref": "#/definitions/entity"
+							},
+							{
+								"properties": {
+									"type": {
+										"const": "endpoint"
+									},
+									"params": {
+										"type": "object",
+										"additionalProperties": false,
+										"required": ["x", "y", "isStatic", "angle"],
+										"properties": {
+											"x": {
+												"type": "number"
+											},
+											"y": {
+												"type": "number"
+											},
+											"isStatic": {
+												"type": "boolean"
+											},
+											"rightFacing": {
+												"type": "boolean"
+											},
+											"angle": {
+												"type": "number"
+											}
+										}
+									}
+								}
+							}
+						]
 					}
 				]
 			}
