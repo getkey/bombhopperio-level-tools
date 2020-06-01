@@ -104,6 +104,16 @@
 			}
 		},
 		{
+			"type": "player",
+			"params": {
+				"x": 240,
+				"y": 400,
+				"angle": 0,
+				"isStatic": false,
+				"infiniteAmmo": "grenade"
+			}
+		},
+		{
 			"type": "normal",
 			"params": {
 				"vertices": [

@@ -172,6 +172,77 @@
 								}
 							}
 						]
+					},
+					{
+						"allOf": [
+							{
+								"$ref": "#/definitions/entity"
+							},
+							{
+								"properties": {
+									"type": {
+										"const": "player"
+									},
+									"params": {
+										"oneOf": [
+											{
+												"type": "object",
+												"additionalProperties": false,
+												"required": ["x", "y", "isStatic", "angle", "magazine"],
+												"properties": {
+													"x": {
+														"type": "number"
+													},
+													"y": {
+														"type": "number"
+													},
+													"isStatic": {
+														"type": "boolean"
+													},
+													"rightFacing": {
+														"type": "boolean"
+													},
+													"angle": {
+														"type": "number"
+													},
+													"magazine": {
+														"type": "array",
+														"items": {
+															"enum": ["grenade", "bullet", "empty"]
+														}
+													}
+												}
+											},
+											{
+												"type": "object",
+												"additionalProperties": false,
+												"required": ["x", "y", "isStatic", "angle", "infiniteAmmo"],
+												"properties": {
+													"x": {
+														"type": "number"
+													},
+													"y": {
+														"type": "number"
+													},
+													"isStatic": {
+														"type": "boolean"
+													},
+													"rightFacing": {
+														"type": "boolean"
+													},
+													"angle": {
+														"type": "number"
+													},
+													"infiniteAmmo": {
+														"enum": ["grenade", "bullet"]
+													}
+												}
+											}
+										]
+									}
+								}
+							}
+						]
 					}
 				]
 			}
