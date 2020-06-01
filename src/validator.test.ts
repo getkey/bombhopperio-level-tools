@@ -1,5 +1,5 @@
 import { validator } from './validator';
-import myLevel from './levelExamples/my_level.json';
+import myLevel from './levelExamples/test_level_for_the_validator_tool.json';
 
 test('is an object', () => {
 	expect(() => validator([])).toThrow();
@@ -101,7 +101,7 @@ test('entity has to be in the proper format', () => {
 
 });
 
-['normal', 'ice', 'bouncy', 'breakable'].forEach((blockType) => {
+['normal', 'ice', 'bouncy', 'breakable', 'deadly'].forEach((blockType) => {
 	test(`${blockType} works`, () => {
 		expect(validator({
 			...myLevel,

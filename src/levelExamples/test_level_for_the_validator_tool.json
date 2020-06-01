@@ -1,0 +1,392 @@
+{
+	"name": "test level for the validator tool",
+	"timings": [
+		123456789,
+		1234567
+	],
+	"entities": [
+		{
+			"type": "normal",
+			"params": {
+				"vertices": [
+					{
+						"x": -300,
+						"y": 600
+					},
+					{
+						"x": -300,
+						"y": 660
+					},
+					{
+						"x": 1140,
+						"y": 660
+					},
+					{
+						"x": 1140,
+						"y": 600
+					}
+				],
+				"isStatic": true
+			}
+		},
+		{
+			"type": "endpoint",
+			"params": {
+				"x": 840,
+				"y": 360,
+				"isStatic": true,
+				"rightFacing": true,
+				"angle": -0.9424777960769379
+			}
+		},
+		{
+			"type": "player",
+			"params": {
+				"x": 240,
+				"y": 400,
+				"angle": -2.199114857512855,
+				"isStatic": false,
+				"magazine": [
+					"grenade",
+					"bullet",
+					"empty",
+					"bullet",
+					"grenade",
+					"bullet",
+					"grenade",
+					"bullet",
+					"empty",
+					"bullet",
+					"empty",
+					"bullet",
+					"grenade",
+					"bullet",
+					"grenade"
+				]
+			}
+		},
+		{
+			"type": "endpoint",
+			"params": {
+				"x": 1080,
+				"y": 360,
+				"isStatic": false,
+				"rightFacing": true,
+				"angle": 0
+			}
+		},
+		{
+			"type": "text",
+			"params": {
+				"x": 840,
+				"y": 480,
+				"copy": {
+					"en": "static door"
+				},
+				"anchor": {
+					"x": 0.5,
+					"y": 0.5
+				}
+			}
+		},
+		{
+			"type": "text",
+			"params": {
+				"x": 1080,
+				"y": 480,
+				"copy": {
+					"en": "non-static\ndoor"
+				},
+				"anchor": {
+					"x": 0.5,
+					"y": 0.5
+				}
+			}
+		},
+		{
+			"type": "player",
+			"params": {
+				"x": 120,
+				"y": 360,
+				"angle": 0,
+				"isStatic": true,
+				"infiniteAmmo": "grenade"
+			}
+		},
+		{
+			"type": "text",
+			"params": {
+				"x": 120,
+				"y": 300,
+				"copy": {
+					"en": "static"
+				},
+				"anchor": {
+					"x": 0.5,
+					"y": 0.5
+				}
+			}
+		},
+		{
+			"type": "text",
+			"params": {
+				"x": 240,
+				"y": 360,
+				"copy": {
+					"en": "non-static"
+				},
+				"anchor": {
+					"x": 0.5,
+					"y": 0.5
+				}
+			}
+		},
+		{
+			"type": "normal",
+			"params": {
+				"vertices": [
+					{
+						"x": -300,
+						"y": 480
+					},
+					{
+						"x": -300,
+						"y": 420
+					},
+					{
+						"x": -240,
+						"y": 420
+					}
+				],
+				"isStatic": false
+			}
+		},
+		{
+			"type": "ice",
+			"params": {
+				"vertices": [
+					{
+						"x": -240,
+						"y": 480
+					},
+					{
+						"x": -120,
+						"y": 420
+					},
+					{
+						"x": -120,
+						"y": 480
+					},
+					{
+						"x": -180,
+						"y": 540
+					},
+					{
+						"x": -240,
+						"y": 540
+					},
+					{
+						"x": -180,
+						"y": 480
+					}
+				],
+				"isStatic": true
+			}
+		},
+		{
+			"type": "ice",
+			"params": {
+				"vertices": [
+					{
+						"x": -120,
+						"y": 300
+					},
+					{
+						"x": -60,
+						"y": 300
+					},
+					{
+						"x": -60,
+						"y": 360
+					},
+					{
+						"x": -120,
+						"y": 360
+					},
+					{
+						"x": -180,
+						"y": 360
+					}
+				],
+				"isStatic": false
+			}
+		},
+		{
+			"type": "breakable",
+			"params": {
+				"vertices": [
+					{
+						"x": -60,
+						"y": 480
+					},
+					{
+						"x": 0,
+						"y": 480
+					},
+					{
+						"x": 0,
+						"y": 600
+					},
+					{
+						"x": -60,
+						"y": 600
+					}
+				],
+				"isStatic": true
+			}
+		},
+		{
+			"type": "breakable",
+			"params": {
+				"vertices": [
+					{
+						"x": 0,
+						"y": 360
+					},
+					{
+						"x": 60,
+						"y": 360
+					},
+					{
+						"x": 60,
+						"y": 420
+					}
+				],
+				"isStatic": false
+			}
+		},
+		{
+			"type": "deadly",
+			"params": {
+				"vertices": [
+					{
+						"x": 660,
+						"y": 300
+					},
+					{
+						"x": 660,
+						"y": 540
+					},
+					{
+						"x": 600,
+						"y": 540
+					}
+				],
+				"isStatic": false
+			}
+		},
+		{
+			"type": "deadly",
+			"params": {
+				"vertices": [
+					{
+						"x": 540,
+						"y": 180
+					},
+					{
+						"x": 600,
+						"y": 180
+					},
+					{
+						"x": 540,
+						"y": 300
+					},
+					{
+						"x": 600,
+						"y": 420
+					},
+					{
+						"x": 480,
+						"y": 300
+					},
+					{
+						"x": 360,
+						"y": 300
+					},
+					{
+						"x": 540,
+						"y": 240
+					},
+					{
+						"x": 480,
+						"y": 180
+					},
+					{
+						"x": 480,
+						"y": 120
+					}
+				],
+				"isStatic": true
+			}
+		},
+		{
+			"type": "bouncy",
+			"params": {
+				"vertices": [
+					{
+						"x": 180,
+						"y": 480
+					},
+					{
+						"x": 300,
+						"y": 480
+					},
+					{
+						"x": 300,
+						"y": 600
+					},
+					{
+						"x": 240,
+						"y": 600
+					}
+				],
+				"isStatic": true
+			}
+		},
+		{
+			"type": "bouncy",
+			"params": {
+				"vertices": [
+					{
+						"x": 420,
+						"y": 360
+					},
+					{
+						"x": 480,
+						"y": 360
+					},
+					{
+						"x": 480,
+						"y": 420
+					},
+					{
+						"x": 420,
+						"y": 420
+					}
+				],
+				"isStatic": true
+			}
+		},
+		{
+			"type": "player",
+			"params": {
+				"x": 720,
+				"y": 540,
+				"angle": 0,
+				"isStatic": false,
+				"magazine": []
+			}
+		}
+	],
+	"formatVersion": 0
+}

@@ -76,7 +76,7 @@
 							{
 								"properties": {
 									"type": {
-										"enum": ["normal", "ice", "bouncy", "breakable"]
+										"enum": ["normal", "ice", "bouncy", "breakable", "deadly"]
 									},
 									"params": {
 										"type": "object",
