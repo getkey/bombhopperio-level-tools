@@ -1,91 +1,91 @@
-import { validator } from './validator';
+import { validate } from './validator';
 import myLevel from './levelExamples/test_level_for_the_validator_tool.json';
 
 test('is an object', () => {
-	expect(() => validator([])).toThrow();
-	expect(() => validator(342)).toThrow();
-	expect(() => validator('yo')).toThrow();
-	expect(() => validator(null)).toThrow();
-	expect(() => validator(undefined)).toThrow();
+	expect(() => validate([])).toThrow();
+	expect(() => validate(342)).toThrow();
+	expect(() => validate('yo')).toThrow();
+	expect(() => validate(null)).toThrow();
+	expect(() => validate(undefined)).toThrow();
 
 	// valid level
-	expect(validator(myLevel)).toBe(0);
+	expect(validate(myLevel)).toBe(0);
 });
 
 test('only 2 stars timings', () => {
-	expect(() => validator({
+	expect(() => validate({
 		name: 'tsner',
 		timings: [0],
 	})).toThrow();
 
-	expect(() => validator({
+	expect(() => validate({
 		name: 'tsner',
 		timings: [1, 4, 5],
 	})).toThrow();
 
-	expect(validator({
+	expect(validate({
 		name: 'tsner',
 		timings: [10, 2],
 	})).toBe(0);
 });
 
 test('2nd star > 3rd star', () => {
-	expect(() => validator({
+	expect(() => validate({
 		...myLevel,
 		timings: [1, 4],
 	})).toThrow();
 
-	expect(validator({
+	expect(validate({
 		...myLevel,
 		timings: [12345, 12345],
 	})).toBe(0);
 });
 
 test('timings are ints', () => {
-	expect(() => validator({
+	expect(() => validate({
 		...myLevel,
 		timings: [23.12, 45],
 	})).toThrow();
 
-	expect(() => validator({
+	expect(() => validate({
 		...myLevel,
 		timings: [23, 45.021],
 	})).toThrow();
 });
 
 test('timings <= 0', () => {
-	expect(() => validator({
+	expect(() => validate({
 		...myLevel,
 		timings: [-23, 45],
 	})).toThrow();
 
-	expect(() => validator({
+	expect(() => validate({
 		...myLevel,
 		timings: [23, -45],
 	})).toThrow();
 
-	expect(validator({
+	expect(validate({
 		...myLevel,
 		timings: [0, 0],
 	})).toBe(0);
 });
 
 test('name not empty', () => {
-	expect(() => validator({
+	expect(() => validate({
 		...myLevel,
 		name: '',
 	})).toThrow();
 });
 
 test('formatVersion is int', () => {
-	expect(() => validator({
+	expect(() => validate({
 		...myLevel,
 		formatVersion: 123.23,
 	})).toThrow();
 });
 
 test('empty entities', () => {
-	expect(validator({
+	expect(validate({
 		...myLevel,
 		entities: [],
 	})).toBe(0);
@@ -93,7 +93,7 @@ test('empty entities', () => {
 
 test('entity has to be in the proper format', () => {
 	[null, undefined, 1232132123.432432432, [], {}, 'estaioneariots'].forEach((trash) => {
-		expect(() => validator({
+		expect(() => validate({
 			...myLevel,
 			entities: [trash],
 		})).toThrow();
@@ -103,7 +103,7 @@ test('entity has to be in the proper format', () => {
 
 ['normal', 'ice', 'bouncy', 'breakable', 'deadly'].forEach((blockType) => {
 	test(`${blockType} works`, () => {
-		expect(validator({
+		expect(validate({
 			...myLevel,
 			entities: [
 				{
@@ -122,7 +122,7 @@ test('entity has to be in the proper format', () => {
 	});
 
 	test(`${blockType} should have at least 2 vertices`, () => {
-		expect(() => validator({
+		expect(() => validate({
 			...myLevel,
 			entities: [
 				{
@@ -140,7 +140,7 @@ test('entity has to be in the proper format', () => {
 	});
 
 	test(`${blockType} should have at least 2 vertices`, () => {
-		expect(() => validator({
+		expect(() => validate({
 			...myLevel,
 			entities: [
 				{
@@ -159,7 +159,7 @@ test('entity has to be in the proper format', () => {
 });
 
 test('type is always required', () => {
-	expect(() => validator({
+	expect(() => validate({
 		...myLevel,
 		entities: [
 			{
@@ -177,7 +177,7 @@ test('type is always required', () => {
 });
 
 test('params is always required', () => {
-	expect(() => validator({
+	expect(() => validate({
 		...myLevel,
 		entities: [
 			{
@@ -188,7 +188,7 @@ test('params is always required', () => {
 });
 
 test('vertices is always required for blocks', () => {
-	expect(() => validator({
+	expect(() => validate({
 		...myLevel,
 		entities: [
 			{
@@ -202,7 +202,7 @@ test('vertices is always required for blocks', () => {
 });
 
 test('isStatic is optional for blocks', () => {
-	expect(validator({
+	expect(validate({
 		...myLevel,
 		entities: [
 			{
@@ -220,7 +220,7 @@ test('isStatic is optional for blocks', () => {
 });
 
 test('vertices can have x, y and that\'s it', () => {
-	expect(() => validator({
+	expect(() => validate({
 		...myLevel,
 		entities: [
 			{
@@ -237,7 +237,7 @@ test('vertices can have x, y and that\'s it', () => {
 		],
 	})).toThrow();
 
-	expect(() => validator({
+	expect(() => validate({
 		...myLevel,
 		entities: [
 			{
@@ -256,7 +256,7 @@ test('vertices can have x, y and that\'s it', () => {
 });
 
 test('entities always and only have type and params', () => {
-	expect(validator({
+	expect(validate({
 		...myLevel,
 		entities: [
 			{
@@ -273,7 +273,7 @@ test('entities always and only have type and params', () => {
 		],
 	})).toEqual(0);
 
-	expect(() => validator({
+	expect(() => validate({
 		...myLevel,
 		entities: [
 			{
@@ -289,7 +289,7 @@ test('entities always and only have type and params', () => {
 		],
 	})).toThrow();
 
-	expect(validator({
+	expect(validate({
 		...myLevel,
 		entities: [
 			{
@@ -311,7 +311,7 @@ test('entities always and only have type and params', () => {
 	})).toEqual(0);
 
 	['text', 'normal', 'bouncy', 'breakable'].forEach((type) => {
-		expect(() => validator({
+		expect(() => validate({
 			...myLevel,
 			entities: [
 				{
@@ -323,7 +323,7 @@ test('entities always and only have type and params', () => {
 });
 
 test('x, y, copy and anchor are required', () => {
-	expect(() => validator({
+	expect(() => validate({
 		...myLevel,
 		entities: [
 			{
@@ -342,7 +342,7 @@ test('x, y, copy and anchor are required', () => {
 		],
 	})).toThrow();
 
-	expect(() => validator({
+	expect(() => validate({
 		...myLevel,
 		entities: [
 			{
@@ -361,7 +361,7 @@ test('x, y, copy and anchor are required', () => {
 		],
 	})).toThrow();
 
-	expect(() => validator({
+	expect(() => validate({
 		...myLevel,
 		entities: [
 			{
@@ -378,7 +378,7 @@ test('x, y, copy and anchor are required', () => {
 		],
 	})).toThrow();
 
-	expect(() => validator({
+	expect(() => validate({
 		...myLevel,
 		entities: [
 			{
@@ -396,7 +396,7 @@ test('x, y, copy and anchor are required', () => {
 });
 
 test('text can have anything as a language code', () => {
-	expect(validator({
+	expect(validate({
 		...myLevel,
 		entities: [
 			{
@@ -419,7 +419,7 @@ test('text can have anything as a language code', () => {
 });
 
 test('text needs english', () => {
-	expect(() => validator({
+	expect(() => validate({
 		...myLevel,
 		entities: [
 			{
@@ -442,7 +442,7 @@ test('text needs english', () => {
 });
 
 test('x, y, isStatic and angle are required in endpoint', () => {
-	expect(() => validator({
+	expect(() => validate({
 		...myLevel,
 		entities: [
 			{
@@ -457,7 +457,7 @@ test('x, y, isStatic and angle are required in endpoint', () => {
 		],
 	})).toThrow();
 
-	expect(() => validator({
+	expect(() => validate({
 		...myLevel,
 		entities: [
 			{
@@ -472,7 +472,7 @@ test('x, y, isStatic and angle are required in endpoint', () => {
 		],
 	})).toThrow();
 
-	expect(() => validator({
+	expect(() => validate({
 		...myLevel,
 		entities: [
 			{
@@ -487,7 +487,7 @@ test('x, y, isStatic and angle are required in endpoint', () => {
 		],
 	})).toThrow();
 
-	expect(() => validator({
+	expect(() => validate({
 		...myLevel,
 		entities: [
 			{
@@ -505,7 +505,7 @@ test('x, y, isStatic and angle are required in endpoint', () => {
 
 
 test('rightFacing is optional in endpoint', () => {
-	expect(validator({
+	expect(validate({
 		...myLevel,
 		entities: [
 			{
@@ -521,7 +521,7 @@ test('rightFacing is optional in endpoint', () => {
 		],
 	})).toEqual(0);
 
-	expect(validator({
+	expect(validate({
 		...myLevel,
 		entities: [
 			{

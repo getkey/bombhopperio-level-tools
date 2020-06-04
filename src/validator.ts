@@ -1,16 +1,14 @@
 import Ajv from 'ajv';
 
-// TODO: set "additionalProperties": false
 import schema from './schema.json';
 
 const ajv = new Ajv();
+const validator = ajv.compile(schema);
 
-var validate = ajv.compile(schema);
+export function validate(level: any) {
+	const valid = validator(level);
 
-export function validator(level: any) {
-	const valid = validate(level);
-
-	if (!valid) throw validate.errors;
+	if (!valid) throw validator.errors;
 
 	if (level.timings[0] < level.timings[1]) {
 		throw new Error('Time to get 2rd star must be higher than time to get 3rd star');

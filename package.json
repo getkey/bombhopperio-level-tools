@@ -1,13 +1,15 @@
 {
   "name": "bombhopperio-level-tools",
   "license": "Apache-2.0",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Library to check that a level file is valid",
   "homepage": "https://github.com/getkey/bombhopperio-level",
   "repository": {
     "type": "git",
     "url": "https://github.com/getkey/bombhopperio-level.git"
   },
+  "module": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "dependencies": {
     "ajv": "^6.12.2"
   },
@@ -20,5 +22,8 @@
   "scripts": {
     "test": "jest",
     "build": "tsc"
-  }
+  },
+  "files": [
+	  "dist/**/*"
+  ]
 }
