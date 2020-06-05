@@ -188,7 +188,7 @@
 											{
 												"type": "object",
 												"additionalProperties": false,
-												"required": ["x", "y", "isStatic", "angle", "magazine"],
+												"required": ["x", "y", "angle", "magazine"],
 												"properties": {
 													"x": {
 														"type": "number"
@@ -216,7 +216,7 @@
 											{
 												"type": "object",
 												"additionalProperties": false,
-												"required": ["x", "y", "isStatic", "angle", "infiniteAmmo"],
+												"required": ["x", "y", "angle", "infiniteAmmo"],
 												"properties": {
 													"x": {
 														"type": "number"
