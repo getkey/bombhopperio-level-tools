@@ -3,10 +3,10 @@
   "license": "Apache-2.0",
   "version": "0.2.1",
   "description": "Library to check that a level file is valid",
-  "homepage": "https://github.com/getkey/bombhopperio-level",
+  "homepage": "https://github.com/getkey/bombhopperio-level-tools",
   "repository": {
     "type": "git",
-    "url": "https://github.com/getkey/bombhopperio-level.git"
+    "url": "https://github.com/getkey/bombhopperio-level-tools.git"
   },
   "module": "dist/esm/index.js",
   "typings": "dist/esm/index.d.ts",
