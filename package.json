@@ -23,6 +23,7 @@
   },
   "scripts": {
     "test": "jest",
+	"prepublish": "npm run build",
     "build": "rm -r dist && tsc --build tsconfig.esm.json tsconfig.cjs.json"
   },
   "files": [
