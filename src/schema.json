@@ -130,7 +130,10 @@
 													}
 												}
 											},
-											"anchor": { "$ref": "#/definitions/point" }
+											"anchor": { "$ref": "#/definitions/point" },
+											"angle": {
+												"type": "number"
+											}
 										}
 									}
 								}
