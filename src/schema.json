@@ -111,7 +111,7 @@
 													},
 													"radius": {
 														"type": "number",
-														"minimum": 0
+														"exclusiveMinimum": 0
 													}
 												}
 											}
