@@ -79,19 +79,43 @@
 										"enum": ["normal", "ice", "bouncy", "breakable", "deadly"]
 									},
 									"params": {
-										"type": "object",
-										"additionalProperties": false,
-										"required": ["vertices"],
-										"properties": {
-											"isStatic": {
-												"type": "boolean"
+										"oneOf": [
+											{
+												"type": "object",
+												"additionalProperties": false,
+												"required": ["vertices"],
+												"properties": {
+													"isStatic": {
+														"type": "boolean"
+													},
+													"vertices": {
+														"type": "array",
+														"minItems": 3,
+														"items": { "$ref": "#/definitions/point" }
+													}
+												}
 											},
-											"vertices": {
-												"type": "array",
-												"minItems": 3,
-												"items": { "$ref": "#/definitions/point" }
+											{
+												"type": "object",
+												"additionalProperties": false,
+												"required": ["x", "y", "radius"],
+												"properties": {
+													"isStatic": {
+														"type": "boolean"
+													},
+													"x": {
+														"type": "number"
+													},
+													"y": {
+														"type": "number"
+													},
+													"radius": {
+														"type": "number",
+														"minimum": 0
+													}
+												}
 											}
-										}
+										]
 									}
 								}
 							}

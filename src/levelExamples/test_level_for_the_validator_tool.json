@@ -382,6 +382,51 @@
 			}
 		},
 		{
+			"type": "bouncy",
+			"params": {
+				"x": 300,
+				"y": 600,
+				"radius": 15,
+				"isStatic": true
+			}
+		},
+		{
+			"type": "ice",
+			"params": {
+				"x": 300,
+				"y": 600,
+				"radius": 15,
+				"isStatic": true
+			}
+		},
+		{
+			"type": "breakable",
+			"params": {
+				"x": 300,
+				"y": 600,
+				"radius": 15,
+				"isStatic": true
+			}
+		},
+		{
+			"type": "deadly",
+			"params": {
+				"x": 300,
+				"y": 600,
+				"radius": 15,
+				"isStatic": true
+			}
+		},
+		{
+			"type": "normal",
+			"params": {
+				"x": 300,
+				"y": 600,
+				"radius": 14,
+				"isStatic": true
+			}
+		},
+		{
 			"type": "player",
 			"params": {
 				"x": 720,
