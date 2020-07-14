@@ -37,7 +37,7 @@
 	"description": "A BombHopper.io level",
 	"type": "object",
 	"additionalProperties": false,
-	"required": ["name", "timings"],
+	"required": ["name", "timings", "entities"],
 	"properties": {
 		"name": {
 			"type": "string",

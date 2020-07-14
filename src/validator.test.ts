@@ -16,16 +16,19 @@ test('only 2 stars timings', () => {
 	expect(() => validate({
 		name: 'tsner',
 		timings: [0],
+		entities: [],
 	})).toThrow();
 
 	expect(() => validate({
 		name: 'tsner',
 		timings: [1, 4, 5],
+		entities: [],
 	})).toThrow();
 
 	expect(validate({
 		name: 'tsner',
 		timings: [10, 2],
+		entities: [],
 	})).toBe(0);
 });
 
@@ -535,4 +538,36 @@ test('rightFacing is optional in endpoint', () => {
 			},
 		],
 	})).toEqual(0);
+});
+
+test('complex polygons are rejected', () => {
+	expect(() => validate({
+		...myLevel,
+		entities: [
+			{
+				type: 'normal',
+				params: {
+					isStatic: true,
+					vertices: [
+						{
+							x: -240,
+							y: 600,
+						},
+						{
+							x: 0,
+							y: 600,
+						},
+						{
+							x: -240,
+							y: 840,
+						},
+						{
+							x: 0,
+							y: 840,
+						},
+					]
+				}
+			},
+		],
+	})).toThrow('Complex polygons aren\'t allowed.');
 });
