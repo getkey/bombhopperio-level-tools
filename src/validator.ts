@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 import Ajv from 'ajv';
 
 import schema from './schema.json';
@@ -6,7 +9,7 @@ import { polygonIsSimple } from './utils/geom';
 const ajv = new Ajv();
 const validator = ajv.compile(schema);
 
-export function validate(level: any) {
+export function validate(level: any): number {
 	const valid = validator(level);
 
 	if (!valid) throw validator.errors;
@@ -18,7 +21,7 @@ export function validate(level: any) {
 	const hasComplexPolygons = level.entities.some((entity: any) => entity.params.vertices && !polygonIsSimple(entity.params.vertices));
 
 	if (hasComplexPolygons) {
-		throw new Error('Complex polygons aren\'t allowed.')
+		throw new Error('Complex polygons aren\'t allowed.');
 	}
 
 	return level.formatVersion || 0;

@@ -117,9 +117,9 @@ test('entity has to be in the proper format', () => {
 							{ x: 1223123, y: 84932749 },
 							{ x: 1223, y: 8493249 },
 							{ x: 23123, y: 932749 },
-						]
-					}
-				}
+						],
+					},
+				},
 			],
 		})).toBe(0);
 	});
@@ -135,9 +135,9 @@ test('entity has to be in the proper format', () => {
 						vertices: [
 							{ x: 1223123, y: 84932749 },
 							{ x: 23123, y: 932749 },
-						]
-					}
-				}
+						],
+					},
+				},
 			],
 		})).toThrow();
 	});
@@ -153,9 +153,9 @@ test('entity has to be in the proper format', () => {
 						vertices: [
 							{ x: 1223123, y: 84932749 },
 							{ x: 23123, y: 932749 },
-						]
-					}
-				}
+						],
+					},
+				},
 			],
 		})).toThrow();
 	});
@@ -172,9 +172,9 @@ test('type is always required', () => {
 						{ x: 1223123, y: 84932749 },
 						{ x: 1289803123, y: 84932749 },
 						{ x: 23123, y: 932749 },
-					]
-				}
-			}
+					],
+				},
+			},
 		],
 	})).toThrow();
 });
@@ -185,7 +185,7 @@ test('params is always required', () => {
 		entities: [
 			{
 				type: 'normal',
-			}
+			},
 		],
 	})).toThrow();
 });
@@ -198,8 +198,8 @@ test('vertices is always required for blocks', () => {
 				type: 'normal',
 				params: {
 					isStatic: false,
-				}
-			}
+				},
+			},
 		],
 	})).toThrow();
 });
@@ -215,9 +215,9 @@ test('isStatic is optional for blocks', () => {
 						{ x: 1223123, y: 84932749 },
 						{ x: 1289803123, y: 84932749 },
 						{ x: 23123, y: 932749 },
-					]
-				}
-			}
+					],
+				},
+			},
 		],
 	})).toBe(0);
 });
@@ -234,9 +234,9 @@ test('vertices can have x, y and that\'s it', () => {
 						{ x: 1223123, y: 84932749, crap: true },
 						{ x: 1223, y: 8493249 },
 						{ x: 23123, y: 932749 },
-					]
-				}
-			}
+					],
+				},
+			},
 		],
 	})).toThrow();
 
@@ -251,9 +251,9 @@ test('vertices can have x, y and that\'s it', () => {
 						{ x: 1223123 },
 						{ x: 1223, y: 8493249 },
 						{ x: 23123, y: 932749 },
-					]
-				}
-			}
+					],
+				},
+			},
 		],
 	})).toThrow();
 });
@@ -270,9 +270,9 @@ test('entities always and only have type and params', () => {
 						{ x: 1223123, y: 1234567 },
 						{ x: 1223, y: 8493249 },
 						{ x: 23123, y: 932749 },
-					]
-				}
-			}
+					],
+				},
+			},
 		],
 	})).toEqual(0);
 
@@ -286,9 +286,9 @@ test('entities always and only have type and params', () => {
 						{ x: 1223123, y: 1234567 },
 						{ x: 1223, y: 8493249 },
 						{ x: 23123, y: 932749 },
-					]
-				}
-			}
+					],
+				},
+			},
 		],
 	})).toThrow();
 
@@ -455,7 +455,7 @@ test('x, y, isStatic and angle are required in endpoint', () => {
 					isStatic: true,
 					rightFacing: true,
 					angle: 0,
-				}
+				},
 			},
 		],
 	})).toThrow();
@@ -470,7 +470,7 @@ test('x, y, isStatic and angle are required in endpoint', () => {
 					isStatic: true,
 					rightFacing: true,
 					angle: 0,
-				}
+				},
 			},
 		],
 	})).toThrow();
@@ -485,7 +485,7 @@ test('x, y, isStatic and angle are required in endpoint', () => {
 					y: 360,
 					rightFacing: true,
 					angle: 0,
-				}
+				},
 			},
 		],
 	})).toThrow();
@@ -500,7 +500,7 @@ test('x, y, isStatic and angle are required in endpoint', () => {
 					y: 360,
 					isStatic: true,
 					rightFacing: true,
-				}
+				},
 			},
 		],
 	})).toThrow();
@@ -519,7 +519,7 @@ test('rightFacing is optional in endpoint', () => {
 					isStatic: true,
 					rightFacing: false,
 					angle: 0,
-				}
+				},
 			},
 		],
 	})).toEqual(0);
@@ -534,7 +534,7 @@ test('rightFacing is optional in endpoint', () => {
 					y: 360,
 					isStatic: true,
 					angle: 0,
-				}
+				},
 			},
 		],
 	})).toEqual(0);
@@ -565,8 +565,8 @@ test('complex polygons are rejected', () => {
 							x: 0,
 							y: 840,
 						},
-					]
-				}
+					],
+				},
 			},
 		],
 	})).toThrow('Complex polygons aren\'t allowed.');
