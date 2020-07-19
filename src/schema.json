@@ -19,7 +19,7 @@
 			"type": "integer",
 			"minimum": 0
 		},
-		"entity": {
+		"entity_base": {
 			"type": "object",
 			"additionalProperties": false,
 			"required": ["type", "params"],
@@ -31,6 +31,225 @@
 					"type": "object"
 				}
 			}
+		},
+		"block_entity": {
+			"allOf": [
+				{
+					"$ref": "#/definitions/entity_base"
+				},
+				{
+					"properties": {
+						"type": {
+							"enum": ["normal", "ice", "bouncy", "breakable", "deadly"]
+						},
+						"params": {
+							"oneOf": [
+								{
+									"type": "object",
+									"additionalProperties": false,
+									"required": ["vertices"],
+									"properties": {
+										"isStatic": {
+											"type": "boolean"
+										},
+										"vertices": {
+											"type": "array",
+											"minItems": 3,
+											"items": { "$ref": "#/definitions/point" }
+										}
+									}
+								},
+								{
+									"type": "object",
+									"additionalProperties": false,
+									"required": ["x", "y", "radius"],
+									"properties": {
+										"isStatic": {
+											"type": "boolean"
+										},
+										"x": {
+											"type": "number"
+										},
+										"y": {
+											"type": "number"
+										},
+										"radius": {
+											"type": "number",
+											"exclusiveMinimum": 0
+										}
+									}
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		"text_entity": {
+			"allOf": [
+				{
+					"$ref": "#/definitions/entity_base"
+				},
+				{
+					"properties": {
+						"type": {
+							"const": "text"
+						},
+						"params": {
+							"type": "object",
+							"additionalProperties": false,
+							"required": ["x", "y", "copy", "anchor"],
+							"properties": {
+								"x": {
+									"type": "number"
+								},
+								"y": {
+									"type": "number"
+								},
+								"copy": {
+									"type": "object",
+									"required": ["en"],
+									"additionalProperties": {
+										"type": "string"
+									},
+									"properties": {
+										"en": {
+											"type": "string"
+										}
+									}
+								},
+								"anchor": { "$ref": "#/definitions/point" },
+								"angle": {
+									"type": "number"
+								}
+							}
+						}
+					}
+				}
+			]
+		},
+		"door_entity": {
+			"allOf": [
+				{
+					"$ref": "#/definitions/entity_base"
+				},
+				{
+					"properties": {
+						"type": {
+							"const": "endpoint"
+						},
+						"params": {
+							"type": "object",
+							"additionalProperties": false,
+							"required": ["x", "y", "isStatic", "angle"],
+							"properties": {
+								"x": {
+									"type": "number"
+								},
+								"y": {
+									"type": "number"
+								},
+								"isStatic": {
+									"type": "boolean"
+								},
+								"rightFacing": {
+									"type": "boolean"
+								},
+								"angle": {
+									"type": "number"
+								}
+							}
+						}
+					}
+				}
+			]
+		},
+		"hoppi_entity": {
+			"allOf": [
+				{
+					"$ref": "#/definitions/entity_base"
+				},
+				{
+					"properties": {
+						"type": {
+							"const": "player"
+						},
+						"params": {
+							"oneOf": [
+								{
+									"type": "object",
+									"additionalProperties": false,
+									"required": ["x", "y", "angle", "magazine"],
+									"properties": {
+										"x": {
+											"type": "number"
+										},
+										"y": {
+											"type": "number"
+										},
+										"isStatic": {
+											"type": "boolean"
+										},
+										"rightFacing": {
+											"type": "boolean"
+										},
+										"angle": {
+											"type": "number"
+										},
+										"magazine": {
+											"type": "array",
+											"items": {
+												"enum": ["grenade", "bullet", "empty"]
+											}
+										}
+									}
+								},
+								{
+									"type": "object",
+									"additionalProperties": false,
+									"required": ["x", "y", "angle", "infiniteAmmo"],
+									"properties": {
+										"x": {
+											"type": "number"
+										},
+										"y": {
+											"type": "number"
+										},
+										"isStatic": {
+											"type": "boolean"
+										},
+										"rightFacing": {
+											"type": "boolean"
+										},
+										"angle": {
+											"type": "number"
+										},
+										"infiniteAmmo": {
+											"enum": ["grenade", "bullet"]
+										}
+									}
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		"entity": {
+			"oneOf": [
+				{
+					"$ref": "#/definitions/block_entity"
+				},
+				{
+					"$ref": "#/definitions/text_entity"
+				},
+				{
+					"$ref": "#/definitions/door_entity"
+				},
+				{
+					"$ref": "#/definitions/hoppi_entity"
+				}
+			]
 		}
 	},
 	"title": "Level",
@@ -67,211 +286,7 @@
 		"entities": {
 			"type": "array",
 			"items": {
-				"oneOf": [
-					{
-						"allOf": [
-							{
-								"$ref": "#/definitions/entity"
-							},
-							{
-								"properties": {
-									"type": {
-										"enum": ["normal", "ice", "bouncy", "breakable", "deadly"]
-									},
-									"params": {
-										"oneOf": [
-											{
-												"type": "object",
-												"additionalProperties": false,
-												"required": ["vertices"],
-												"properties": {
-													"isStatic": {
-														"type": "boolean"
-													},
-													"vertices": {
-														"type": "array",
-														"minItems": 3,
-														"items": { "$ref": "#/definitions/point" }
-													}
-												}
-											},
-											{
-												"type": "object",
-												"additionalProperties": false,
-												"required": ["x", "y", "radius"],
-												"properties": {
-													"isStatic": {
-														"type": "boolean"
-													},
-													"x": {
-														"type": "number"
-													},
-													"y": {
-														"type": "number"
-													},
-													"radius": {
-														"type": "number",
-														"exclusiveMinimum": 0
-													}
-												}
-											}
-										]
-									}
-								}
-							}
-						]
-					},
-					{
-						"allOf": [
-							{
-								"$ref": "#/definitions/entity"
-							},
-							{
-								"properties": {
-									"type": {
-										"const": "text"
-									},
-									"params": {
-										"type": "object",
-										"additionalProperties": false,
-										"required": ["x", "y", "copy", "anchor"],
-										"properties": {
-											"x": {
-												"type": "number"
-											},
-											"y": {
-												"type": "number"
-											},
-											"copy": {
-												"type": "object",
-												"required": ["en"],
-												"additionalProperties": {
-													"type": "string"
-												},
-												"properties": {
-													"en": {
-														"type": "string"
-													}
-												}
-											},
-											"anchor": { "$ref": "#/definitions/point" },
-											"angle": {
-												"type": "number"
-											}
-										}
-									}
-								}
-							}
-						]
-					},
-					{
-						"allOf": [
-							{
-								"$ref": "#/definitions/entity"
-							},
-							{
-								"properties": {
-									"type": {
-										"const": "endpoint"
-									},
-									"params": {
-										"type": "object",
-										"additionalProperties": false,
-										"required": ["x", "y", "isStatic", "angle"],
-										"properties": {
-											"x": {
-												"type": "number"
-											},
-											"y": {
-												"type": "number"
-											},
-											"isStatic": {
-												"type": "boolean"
-											},
-											"rightFacing": {
-												"type": "boolean"
-											},
-											"angle": {
-												"type": "number"
-											}
-										}
-									}
-								}
-							}
-						]
-					},
-					{
-						"allOf": [
-							{
-								"$ref": "#/definitions/entity"
-							},
-							{
-								"properties": {
-									"type": {
-										"const": "player"
-									},
-									"params": {
-										"oneOf": [
-											{
-												"type": "object",
-												"additionalProperties": false,
-												"required": ["x", "y", "angle", "magazine"],
-												"properties": {
-													"x": {
-														"type": "number"
-													},
-													"y": {
-														"type": "number"
-													},
-													"isStatic": {
-														"type": "boolean"
-													},
-													"rightFacing": {
-														"type": "boolean"
-													},
-													"angle": {
-														"type": "number"
-													},
-													"magazine": {
-														"type": "array",
-														"items": {
-															"enum": ["grenade", "bullet", "empty"]
-														}
-													}
-												}
-											},
-											{
-												"type": "object",
-												"additionalProperties": false,
-												"required": ["x", "y", "angle", "infiniteAmmo"],
-												"properties": {
-													"x": {
-														"type": "number"
-													},
-													"y": {
-														"type": "number"
-													},
-													"isStatic": {
-														"type": "boolean"
-													},
-													"rightFacing": {
-														"type": "boolean"
-													},
-													"angle": {
-														"type": "number"
-													},
-													"infiniteAmmo": {
-														"enum": ["grenade", "bullet"]
-													}
-												}
-											}
-										]
-									}
-								}
-							}
-						]
-					}
-				]
+				"$ref": "#/definitions/entity"
 			}
 		}
 	}

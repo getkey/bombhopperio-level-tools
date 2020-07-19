@@ -16,14 +16,14 @@
     "ajv": "^6.12.3"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.4",
+    "@types/jest": "^26.0.5",
     "@typescript-eslint/eslint-plugin": "^3.6.1",
     "@typescript-eslint/parser": "^3.6.1",
-    "eslint": "^7.4.0",
+    "eslint": "^7.5.0",
     "eslint-config-getkey": "^0.1.2",
     "jest": "^26.1.0",
-    "ts-jest": "^26.1.2",
-    "typescript": "^3.9.6"
+    "ts-jest": "^26.1.3",
+    "typescript": "^3.9.7"
   },
   "scripts": {
     "test": "jest",
