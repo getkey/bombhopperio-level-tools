@@ -4,7 +4,7 @@
 import Ajv from 'ajv';
 
 import schema from './schema.json';
-import { polygonIsSimple } from './utils/geom';
+import { polygonIsSimple, hasEqualAdjacentPoints } from './utils/geom';
 
 const ajv = new Ajv();
 const validator = ajv.compile(schema);
@@ -21,7 +21,13 @@ export function validate(level: any): number {
 	const hasComplexPolygons = level.entities.some((entity: any) => entity.params.vertices && !polygonIsSimple(entity.params.vertices));
 
 	if (hasComplexPolygons) {
-		throw new Error('Complex polygons aren\'t allowed.');
+		throw new Error('Complex polygons aren\'t allowed');
+	}
+
+	const hasPolygonsWithEqualAdjacentPoints = level.entities.some((entity: any) => entity.params.vertices && hasEqualAdjacentPoints(entity.params.vertices));
+
+	if (hasPolygonsWithEqualAdjacentPoints) {
+		throw new Error('Adjacent points can\'t have the same position');
 	}
 
 	return level.formatVersion || 0;

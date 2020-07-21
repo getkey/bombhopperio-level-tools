@@ -569,5 +569,37 @@ test('complex polygons are rejected', () => {
 				},
 			},
 		],
-	})).toThrow('Complex polygons aren\'t allowed.');
+	})).toThrow('Complex polygons aren\'t allowed');
+});
+
+test('polygons with equal adjacent points are rejected', () => {
+	expect(() => validate({
+		...myLevel,
+		entities: [
+			{
+				type: 'normal',
+				params: {
+					isStatic: true,
+					vertices: [
+						{
+							x: -240,
+							y: 300,
+						},
+						{
+							x: -300,
+							y: 300,
+						},
+						{
+							x: -300,
+							y: 300,
+						},
+						{
+							x: -300,
+							y: 240,
+						},
+					],
+				},
+			},
+		],
+	})).toThrow('Adjacent points can\'t have the same position');
 });

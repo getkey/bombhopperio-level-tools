@@ -1,4 +1,4 @@
-import { polygonIsSimple, lineSegmentsIntersect } from './geom';
+import { polygonIsSimple, lineSegmentsIntersect, hasEqualAdjacentPoints } from './geom';
 
 describe('polygonIsSimple', () => {
 	test('convex polygon', () => {
@@ -219,6 +219,36 @@ describe('lineSegmentsIntersect', () => {
 				{ x: 0, y: 0},
 				{ x: 2, y: 2},
 			)).toBe(false);
+		});
+	});
+});
+
+describe('hasEqualAdjacentPoints', () => {
+	test('no same adjacent points', () => {
+		expect(hasEqualAdjacentPoints([
+			{ x: 0, y: 0},
+			{ x: 1, y: 1},
+			{ x: 0, y: 1},
+		])).toBe(false);
+	});
+
+	describe('same adjacent points', () => {
+		test('in the middle', () => {
+			expect(hasEqualAdjacentPoints([
+				{ x: 0, y: 0},
+				{ x: 1, y: 1},
+				{ x: 1, y: 1},
+				{ x: 0, y: 1},
+			])).toBe(true);
+		});
+
+		test('in the top and bottom', () => {
+			expect(hasEqualAdjacentPoints([
+				{ x: 0, y: 1},
+				{ x: 0, y: 0},
+				{ x: 1, y: 1},
+				{ x: 0, y: 1},
+			])).toBe(true);
 		});
 	});
 });

@@ -38,7 +38,18 @@ export function polygonIsSimple(polygon: Array<Point>): boolean {
 
 			return !lineSegmentsIntersect(pointA, pointB, pointC, pointD);
 		});
+	});
+}
 
-		return true;
+export function hasEqualAdjacentPoints(polygon: Array<Point>): boolean {
+	const closed = [
+		...polygon,
+		polygon[0], // close the path so the segment between the first and the last point will be checked
+	];
+
+	return closed.slice(0, -1).some((pointA, i) => {
+		const pointB = closed[i + 1];
+
+		return pointA.x === pointB.x && pointA.y === pointB.y;
 	});
 }
