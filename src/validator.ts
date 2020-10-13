@@ -24,10 +24,10 @@ export function validate(level: any): number {
 		throw new Error('Complex polygons aren\'t allowed');
 	}
 
-	const hasPolygonsWithEqualAdjacentPoints = level.entities.some((entity: any) => entity.params.vertices && hasEqualAdjacentPoints(entity.params.vertices));
+	const hasPolygonsWithEqualConsecutiveVertices = level.entities.some((entity: any) => entity.params.vertices && hasEqualAdjacentPoints(entity.params.vertices));
 
-	if (hasPolygonsWithEqualAdjacentPoints) {
-		throw new Error('Adjacent points can\'t have the same position');
+	if (hasPolygonsWithEqualConsecutiveVertices) {
+		throw new Error('Consecutive vertices can\'t have the same position');
 	}
 
 	return level.formatVersion || 0;
