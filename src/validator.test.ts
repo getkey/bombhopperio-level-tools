@@ -601,5 +601,5 @@ test('polygons with equal adjacent points are rejected', () => {
 				},
 			},
 		],
-	})).toThrow('Adjacent points can\'t have the same position');
+	})).toThrow('Consecutive vertices can\'t have the same position');
 });
