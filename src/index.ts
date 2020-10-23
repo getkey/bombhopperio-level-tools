@@ -1,2 +1,2 @@
 export { validate } from './validator';
-export { polygonIsSimple } from './utils/geom';
+export { polygonIsSimple, polygonArea } from './utils/geom';

@@ -603,3 +603,35 @@ test('polygons with equal adjacent points are rejected', () => {
 		],
 	})).toThrow('Consecutive vertices can\'t have the same position');
 });
+
+test('polygons with 0 area are rejected', () => {
+	expect(() => validate({
+		...myLevel,
+		entities: [
+			{
+				type: 'normal',
+				params: {
+					isStatic: true,
+					vertices: [
+						{
+							x: 0,
+							y: 0,
+						},
+						{
+							x: 1,
+							y: 0,
+						},
+						{
+							x: 0,
+							y: 0,
+						},
+						{
+							x: 1,
+							y: 0,
+						},
+					],
+				},
+			},
+		],
+	})).toThrow('Polygons areas must be > 0');
+});

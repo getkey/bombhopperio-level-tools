@@ -41,7 +41,7 @@ export function polygonIsSimple(polygon: Array<Point>): boolean {
 	});
 }
 
-export function hasEqualAdjacentPoints(polygon: Array<Point>): boolean {
+export function hasEqualConsecutiveVertices(polygon: Array<Point>): boolean {
 	const closed = [
 		...polygon,
 		polygon[0], // close the path so the segment between the first and the last point will be checked
@@ -52,4 +52,14 @@ export function hasEqualAdjacentPoints(polygon: Array<Point>): boolean {
 
 		return pointA.x === pointB.x && pointA.y === pointB.y;
 	});
+}
+
+// courtesy of https://github.com/getkey/ble/blob/master/src/utils/geom.ts#L29-L36
+export function polygonArea(vertices: Array<Point>): number {
+	let area = 0;
+	for (let i = 0, j = vertices.length - 1; i < vertices.length; j = i++) {
+		area += (vertices[i].x + vertices[j].x) * (vertices[j].y - vertices[i].y);
+	}
+	// area can be negative if the vertices are not ordered counter-clockwise
+	return Math.abs(area / 2);
 }

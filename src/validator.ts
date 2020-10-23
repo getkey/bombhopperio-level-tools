@@ -4,7 +4,7 @@
 import Ajv from 'ajv';
 
 import schema from './schema.json';
-import { polygonIsSimple, hasEqualAdjacentPoints } from './utils/geom';
+import { polygonIsSimple, hasEqualConsecutiveVertices, polygonArea } from './utils/geom';
 
 const ajv = new Ajv();
 const validator = ajv.compile(schema);
@@ -18,17 +18,22 @@ export function validate(level: any): number {
 		throw new Error('Time to get 2rd star must be higher than time to get 3rd star');
 	}
 
-	const hasComplexPolygons = level.entities.some((entity: any) => entity.params.vertices && !polygonIsSimple(entity.params.vertices));
+	level.entities
+		.map((entity: any, i: number) => ([entity, i]))
+		.filter(([entity]: [any]) => entity.params.vertices)
+		.forEach(([entity, i]: [any, number]) => {
+			if (!polygonIsSimple(entity.params.vertices)) {
+				throw new Error(`Entity ${i}: Complex polygons aren't allowed`);
+			}
 
-	if (hasComplexPolygons) {
-		throw new Error('Complex polygons aren\'t allowed');
-	}
+			if(hasEqualConsecutiveVertices(entity.params.vertices)) {
+				throw new Error(`Entity ${i}: Consecutive vertices can't have the same position`);
+			}
 
-	const hasPolygonsWithEqualConsecutiveVertices = level.entities.some((entity: any) => entity.params.vertices && hasEqualAdjacentPoints(entity.params.vertices));
-
-	if (hasPolygonsWithEqualConsecutiveVertices) {
-		throw new Error('Consecutive vertices can\'t have the same position');
-	}
+			if (!(polygonArea(entity.params.vertices) > 0)) {
+				throw new Error(`Entity ${i}: Polygons areas must be > 0`);
+			}
+		});
 
 	return level.formatVersion || 0;
 }
