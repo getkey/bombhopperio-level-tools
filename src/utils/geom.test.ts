@@ -1,4 +1,4 @@
-import { polygonIsSimple, lineSegmentsIntersect, hasEqualConsecutiveVertices, polygonArea } from './geom';
+import { polygonIsSimple, lineSegmentsIntersect, hasEqualConsecutiveVertices, polygonArea, consecutivePointsFormEmptyTriangles } from './geom';
 
 describe('polygonIsSimple', () => {
 	test('convex polygon', () => {
@@ -307,4 +307,188 @@ describe('polygonArea', () => {
 		// use `toBeCloseTo` to compare the float values
 		expect(polygonArea(vertices)).toBeCloseTo(area, 6);
 	}
+
+	test('triangle with 2 points in the same position', () => {
+		expect(polygonArea([
+			{ x: 0, y: 0 },
+			{ x: 0, y: 0 },
+			{ x: 1, y: 0 },
+		])).toBe(0);
+		expect(polygonArea([
+			{ x: 0, y: 999999 },
+			{ x: 0, y: 0 },
+			{ x: 0, y: 0 },
+		])).toBe(0);
+		expect(polygonArea([
+			{ x: 0, y: 0 },
+			{ x: 6, y: 0 },
+			{ x: 0, y: 0 },
+		])).toBe(0);
+	});
+
+	test('triangle with 3 points in the same position', () => {
+		expect(polygonArea([
+			{ x: 0, y: 0 },
+			{ x: 0, y: 0 },
+			{ x: 0, y: 0 },
+		])).toBe(0);
+		expect(polygonArea([
+			{ x: 0, y: 999999 },
+			{ x: 0, y: 999999 },
+			{ x: 0, y: 999999 },
+		])).toBe(0);
+	});
+});
+
+describe('consecutivePointsFormEmptyTriangles', () => {
+	test('simple shape', () => {
+		expect(consecutivePointsFormEmptyTriangles([
+			{
+				"x": 420,
+				"y": 780
+			},
+			{
+				"x": 420,
+				"y": 720
+			},
+			{
+				"x": 360,
+				"y": 720
+			},
+			{
+				"x": 360,
+				"y": 780
+			},
+			{
+				"x": 420,
+				"y": 780
+			},
+			{
+				"x": 420,
+				"y": 840
+			}
+		])).toBe(true);
+
+		expect(consecutivePointsFormEmptyTriangles([
+			{
+				"x": 420,
+				"y": 780
+			},
+			{
+				"x": 420,
+				"y": 720
+			},
+			{
+				"x": 360,
+				"y": 720
+			},
+			{
+				"x": 420,
+				"y": 780
+			},
+			{
+				"x": 420,
+				"y": 840
+			}
+		])).toBe(true);
+
+		expect(consecutivePointsFormEmptyTriangles([
+			{
+				"x": 420,
+				"y": 720
+			},
+			{
+				"x": 360,
+				"y": 720
+			},
+			{
+				"x": 420,
+				"y": 780
+			},
+			{
+				"x": 420,
+				"y": 840
+			}
+		])).toBe(true);
+
+		expect(consecutivePointsFormEmptyTriangles([
+			{
+				"x": 420,
+				"y": 720
+			},
+			{
+				"x": 360,
+				"y": 720
+			},
+			{
+				"x": 420,
+				"y": 840
+			}
+		])).toBe(false);
+	});
+
+	test('complex shape', () => {
+		expect(consecutivePointsFormEmptyTriangles([
+			{
+				"x": 420,
+				"y": 840
+			},
+			{
+				"x": 420,
+				"y": 660
+			},
+			{
+				"x": 600,
+				"y": 660
+			},
+			{
+				"x": 600,
+				"y": 840
+			},
+			{
+				"x": 660,
+				"y": 840
+			},
+			{
+				"x": 660,
+				"y": 660
+			},
+			{
+				"x": 660,
+				"y": 600
+			},
+			{
+				"x": 480,
+				"y": 600
+			},
+			{
+				"x": 420,
+				"y": 600
+			},
+			{
+				"x": 360,
+				"y": 600
+			},
+			{
+				"x": 360,
+				"y": 900
+			},
+			{
+				"x": 660,
+				"y": 900
+			},
+			{
+				"x": 660,
+				"y": 840
+			},
+			{
+				"x": 420,
+				"y": 840
+			},
+			{
+				"x": 360,
+				"y": 780
+			}
+		])).toBe(true);
+	});
 });

@@ -63,3 +63,24 @@ export function polygonArea(vertices: Array<Point>): number {
 	// area can be negative if the vertices are not ordered counter-clockwise
 	return Math.abs(area / 2);
 }
+
+export function consecutivePointsFormEmptyTriangles(polygon: Array<Point>): boolean {
+	if (polygon.length <= 2) return false;
+
+	const closed = [
+		...polygon,
+		polygon[0], // close the path so the segment between the first and the last point will be checked
+		polygon[1], // close the path so the segment between the first and the last point will be checked
+	];
+
+	return closed.slice(0, -2).some((pointA, i) => {
+		const pointB = closed[i + 1];
+		const pointC = closed[i + 2]
+
+		return polygonArea([
+			pointA,
+			pointB,
+			pointC
+		]) === 0;
+	});
+}

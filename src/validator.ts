@@ -4,7 +4,7 @@
 import Ajv from 'ajv';
 
 import schema from './schema.json';
-import { polygonIsSimple, hasEqualConsecutiveVertices, polygonArea } from './utils/geom';
+import { polygonIsSimple, hasEqualConsecutiveVertices, polygonArea, consecutivePointsFormEmptyTriangles } from './utils/geom';
 
 const ajv = new Ajv();
 const validator = ajv.compile(schema);
@@ -32,6 +32,11 @@ export function validate(level: any): number {
 
 			if (!(polygonArea(entity.params.vertices) > 0)) {
 				throw new Error(`Entity ${i}: Polygons areas must be > 0`);
+			}
+
+			if (consecutivePointsFormEmptyTriangles(entity.params.vertices)) {
+				console.log(i);
+				throw new Error(`Entity ${i}: The triangle formed by 3 consecutive points in a polygon must be of area > 0`);
 			}
 		});
 
