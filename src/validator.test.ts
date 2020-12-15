@@ -635,3 +635,47 @@ test('polygons with 0 area are rejected', () => {
 		],
 	})).toThrow('Polygons areas must be > 0');
 });
+
+test('weird non-simple polygon that doesn\'t decompose properly', () => {
+	expect(() => validate({
+		...myLevel,
+		entities: [
+			{
+				type: 'normal',
+				params: {
+					isStatic: true,
+					vertices: [
+						{
+							'x': 120,
+							'y': 720,
+						},
+						{
+							'x': 300,
+							'y': 720,
+						},
+						{
+							'x': 120,
+							'y': 600,
+						},
+						{
+							'x': 180,
+							'y': 660,
+						},
+						{
+							'x': 300,
+							'y': 720,
+						},
+						{
+							'x': 60,
+							'y': 480,
+						},
+						{
+							'x': 120,
+							'y': 660,
+						},
+					],
+				},
+			},
+		],
+	})).toThrow('Can\'t decompose properly');
+});
