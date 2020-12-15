@@ -38,6 +38,7 @@
 					"$ref": "#/definitions/entity_base"
 				},
 				{
+					"type": "object",
 					"properties": {
 						"type": {
 							"enum": ["normal", "ice", "bouncy", "breakable", "deadly"]
@@ -91,6 +92,7 @@
 					"$ref": "#/definitions/entity_base"
 				},
 				{
+					"type": "object",
 					"properties": {
 						"type": {
 							"const": "text"
@@ -134,6 +136,7 @@
 					"$ref": "#/definitions/entity_base"
 				},
 				{
+					"type": "object",
 					"properties": {
 						"type": {
 							"const": "endpoint"
@@ -170,6 +173,7 @@
 					"$ref": "#/definitions/entity_base"
 				},
 				{
+					"type": "object",
 					"properties": {
 						"type": {
 							"const": "player"
