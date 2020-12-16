@@ -77,18 +77,20 @@ export function consecutivePointsFormEmptyTriangles(polygon: Array<Point>): bool
 
 	return closed.slice(0, -2).some((pointA, i) => {
 		const pointB = closed[i + 1];
-		const pointC = closed[i + 2]
+		const pointC = closed[i + 2];
 
 		return polygonArea([
 			pointA,
 			pointB,
-			pointC
+			pointC,
 		]) === 0;
 	});
 }
 
 // see https://github.com/liabru/matter-js/blob/master/src/factory/Bodies.js#L256-L261
 export function canBeDecomposed(polygon: Array<Point>): boolean {
+	if (polygon.length < 2) return false;
+
 	const vertices: Array<[number, number]> = polygon.map(({ x, y }) => [x, y]);
 	makeCCW(vertices);
 	const decomp = quickDecomp(vertices);

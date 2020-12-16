@@ -344,151 +344,151 @@ describe('consecutivePointsFormEmptyTriangles', () => {
 	test('simple shape', () => {
 		expect(consecutivePointsFormEmptyTriangles([
 			{
-				"x": 420,
-				"y": 780
+				'x': 420,
+				'y': 780,
 			},
 			{
-				"x": 420,
-				"y": 720
+				'x': 420,
+				'y': 720,
 			},
 			{
-				"x": 360,
-				"y": 720
+				'x': 360,
+				'y': 720,
 			},
 			{
-				"x": 360,
-				"y": 780
+				'x': 360,
+				'y': 780,
 			},
 			{
-				"x": 420,
-				"y": 780
+				'x': 420,
+				'y': 780,
 			},
 			{
-				"x": 420,
-				"y": 840
-			}
+				'x': 420,
+				'y': 840,
+			},
 		])).toBe(true);
 
 		expect(consecutivePointsFormEmptyTriangles([
 			{
-				"x": 420,
-				"y": 780
+				'x': 420,
+				'y': 780,
 			},
 			{
-				"x": 420,
-				"y": 720
+				'x': 420,
+				'y': 720,
 			},
 			{
-				"x": 360,
-				"y": 720
+				'x': 360,
+				'y': 720,
 			},
 			{
-				"x": 420,
-				"y": 780
+				'x': 420,
+				'y': 780,
 			},
 			{
-				"x": 420,
-				"y": 840
-			}
+				'x': 420,
+				'y': 840,
+			},
 		])).toBe(true);
 
 		expect(consecutivePointsFormEmptyTriangles([
 			{
-				"x": 420,
-				"y": 720
+				'x': 420,
+				'y': 720,
 			},
 			{
-				"x": 360,
-				"y": 720
+				'x': 360,
+				'y': 720,
 			},
 			{
-				"x": 420,
-				"y": 780
+				'x': 420,
+				'y': 780,
 			},
 			{
-				"x": 420,
-				"y": 840
-			}
+				'x': 420,
+				'y': 840,
+			},
 		])).toBe(true);
 
 		expect(consecutivePointsFormEmptyTriangles([
 			{
-				"x": 420,
-				"y": 720
+				'x': 420,
+				'y': 720,
 			},
 			{
-				"x": 360,
-				"y": 720
+				'x': 360,
+				'y': 720,
 			},
 			{
-				"x": 420,
-				"y": 840
-			}
+				'x': 420,
+				'y': 840,
+			},
 		])).toBe(false);
 	});
 
 	test('complex shape', () => {
 		expect(consecutivePointsFormEmptyTriangles([
 			{
-				"x": 420,
-				"y": 840
+				'x': 420,
+				'y': 840,
 			},
 			{
-				"x": 420,
-				"y": 660
+				'x': 420,
+				'y': 660,
 			},
 			{
-				"x": 600,
-				"y": 660
+				'x': 600,
+				'y': 660,
 			},
 			{
-				"x": 600,
-				"y": 840
+				'x': 600,
+				'y': 840,
 			},
 			{
-				"x": 660,
-				"y": 840
+				'x': 660,
+				'y': 840,
 			},
 			{
-				"x": 660,
-				"y": 660
+				'x': 660,
+				'y': 660,
 			},
 			{
-				"x": 660,
-				"y": 600
+				'x': 660,
+				'y': 600,
 			},
 			{
-				"x": 480,
-				"y": 600
+				'x': 480,
+				'y': 600,
 			},
 			{
-				"x": 420,
-				"y": 600
+				'x': 420,
+				'y': 600,
 			},
 			{
-				"x": 360,
-				"y": 600
+				'x': 360,
+				'y': 600,
 			},
 			{
-				"x": 360,
-				"y": 900
+				'x': 360,
+				'y': 900,
 			},
 			{
-				"x": 660,
-				"y": 900
+				'x': 660,
+				'y': 900,
 			},
 			{
-				"x": 660,
-				"y": 840
+				'x': 660,
+				'y': 840,
 			},
 			{
-				"x": 420,
-				"y": 840
+				'x': 420,
+				'y': 840,
 			},
 			{
-				"x": 360,
-				"y": 780
-			}
+				'x': 360,
+				'y': 780,
+			},
 		])).toBe(true);
 	});
 });
@@ -570,6 +570,29 @@ describe('consecutivePointsFormEmptyTriangles', () => {
 				'x': 120,
 				'y': 660,
 			},
+		])).toBe(false);
+	});
+
+	test('not enough vertices', () => {
+		expect(canBeDecomposed([
+			{
+				'x': 120,
+				'y': 720,
+			},
+			{
+				'x': 300,
+				'y': 720,
+			},
+		])).toBe(false);
+
+		expect(canBeDecomposed([
+			{
+				'x': 120,
+				'y': 720,
+			},
+		])).toBe(false);
+
+		expect(canBeDecomposed([
 		])).toBe(false);
 	});
 });
