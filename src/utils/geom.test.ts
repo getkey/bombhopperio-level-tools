@@ -1,4 +1,4 @@
-import { polygonIsSimple, lineSegmentsIntersect, hasEqualConsecutiveVertices, polygonArea, consecutivePointsFormEmptyTriangles } from './geom';
+import { polygonIsSimple, lineSegmentsIntersect, hasEqualConsecutiveVertices, polygonArea, consecutivePointsFormEmptyTriangles, canBeDecomposed } from './geom';
 
 describe('polygonIsSimple', () => {
 	test('convex polygon', () => {
@@ -490,5 +490,86 @@ describe('consecutivePointsFormEmptyTriangles', () => {
 				"y": 780
 			}
 		])).toBe(true);
+	});
+});
+
+describe('consecutivePointsFormEmptyTriangles', () => {
+	test('simple concave', () => {
+		expect(canBeDecomposed([
+			{
+				x: 180,
+				y: 720,
+			},
+			{
+				x: 420,
+				y: 780,
+			},
+			{
+				x: 360,
+				y: 840,
+			},
+			{
+				x: -60,
+				y: 840,
+			},
+		])).toBe(true);
+	});
+
+	test('concave polygon', () => {
+		expect(canBeDecomposed([
+			{
+				x: 180,
+				y: 720,
+			},
+			{
+				x: 420,
+				y: 780,
+			},
+			{
+				x: 360,
+				y: 840,
+			},
+			{
+				x: -60,
+				y: 840,
+			},
+			{
+				x: 240,
+				y: 780,
+			},
+		])).toBe(true);
+	});
+
+	test('weird non-simple polygon', () => {
+		expect(canBeDecomposed([
+			{
+				'x': 120,
+				'y': 720,
+			},
+			{
+				'x': 300,
+				'y': 720,
+			},
+			{
+				'x': 120,
+				'y': 600,
+			},
+			{
+				'x': 180,
+				'y': 660,
+			},
+			{
+				'x': 300,
+				'y': 720,
+			},
+			{
+				'x': 60,
+				'y': 480,
+			},
+			{
+				'x': 120,
+				'y': 660,
+			},
+		])).toBe(false);
 	});
 });

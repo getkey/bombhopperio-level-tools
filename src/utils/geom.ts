@@ -1,3 +1,5 @@
+import { makeCCW, quickDecomp } from 'poly-decomp';
+
 type Point = {
 	x: number;
 	y: number;
@@ -83,4 +85,13 @@ export function consecutivePointsFormEmptyTriangles(polygon: Array<Point>): bool
 			pointC
 		]) === 0;
 	});
+}
+
+// see https://github.com/liabru/matter-js/blob/master/src/factory/Bodies.js#L256-L261
+export function canBeDecomposed(polygon: Array<Point>): boolean {
+	const vertices = polygon.map(({ x, y }: { x: number, y: number }) => [x, y]);
+	makeCCW(vertices);
+	const decomp = quickDecomp(vertices);
+
+	return decomp.length >= 1;
 }

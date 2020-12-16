@@ -2,10 +2,9 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 import Ajv from 'ajv';
-import { makeCCW, quickDecomp } from 'poly-decomp';
 
 import schema from './schema.json';
-import { polygonIsSimple, hasEqualConsecutiveVertices, polygonArea, consecutivePointsFormEmptyTriangles } from './utils/geom';
+import { polygonIsSimple, hasEqualConsecutiveVertices, polygonArea, consecutivePointsFormEmptyTriangles, canBeDecomposed } from './utils/geom';
 
 const ajv = new Ajv();
 const validator = ajv.compile(schema);
@@ -39,13 +38,7 @@ export function validate(level: any): number {
 				throw new Error(`Entity ${i}: The triangle formed by 3 consecutive points in a polygon must be of area > 0`);
 			}
 
-			// make sure the polygon will decompose properly
-			// see https://github.com/liabru/matter-js/blob/master/src/factory/Bodies.js#L256-L261
-			const vertices = entity.params.vertices.map(({ x, y }: { x: number, y: number }) => [x, y]);
-			makeCCW(vertices);
-			const decomp = quickDecomp(vertices);
-
-			if (decomp.length < 1) {
+			if (!canBeDecomposed(entity.params.vertices)) {
 				throw new Error(`Entity ${i}: Can't decompose properly`);
 			}
 		});
