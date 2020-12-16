@@ -89,7 +89,7 @@ export function consecutivePointsFormEmptyTriangles(polygon: Array<Point>): bool
 
 // see https://github.com/liabru/matter-js/blob/master/src/factory/Bodies.js#L256-L261
 export function canBeDecomposed(polygon: Array<Point>): boolean {
-	const vertices = polygon.map(({ x, y }: { x: number, y: number }) => [x, y]);
+	const vertices: Array<[number, number]> = polygon.map(({ x, y }) => [x, y]);
 	makeCCW(vertices);
 	const decomp = quickDecomp(vertices);
 
