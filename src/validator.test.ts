@@ -604,78 +604,272 @@ test('polygons with equal adjacent points are rejected', () => {
 	})).toThrow('Consecutive vertices can\'t have the same position');
 });
 
-test('polygons with 0 area are rejected', () => {
-	expect(() => validate({
-		...myLevel,
-		entities: [
-			{
-				type: 'normal',
-				params: {
-					isStatic: true,
-					vertices: [
-						{
-							x: 0,
-							y: 0,
+describe('polygons with 0 area are rejected', () => {
+	['normal', 'deadly', 'breakable', 'bouncy', 'ice'].forEach((type) => {
+		test(type, () => {
+			expect(() => validate({
+				...myLevel,
+				entities: [
+					{
+						type,
+						params: {
+							isStatic: true,
+							vertices: [
+								{
+									x: 0,
+									y: 0,
+								},
+								{
+									x: 1,
+									y: 0,
+								},
+								{
+									x: 0,
+									y: 0,
+								},
+								{
+									x: 1,
+									y: 0,
+								},
+							],
 						},
-						{
-							x: 1,
-							y: 0,
-						},
-						{
-							x: 0,
-							y: 0,
-						},
-						{
-							x: 1,
-							y: 0,
-						},
-					],
+					},
+				],
+			})).toThrow('Polygons areas must be > 0');
+		});
+	});
+	test('paint', () => {
+		expect(() => validate({
+			...myLevel,
+			entities: [
+				{
+					type: 'paint',
+					params: {
+						vertices: [
+							{
+								x: 0,
+								y: 0,
+							},
+							{
+								x: 1,
+								y: 0,
+							},
+							{
+								x: 0,
+								y: 0,
+							},
+							{
+								x: 1,
+								y: 0,
+							},
+						],
+						fillColor: 0x00000,
+					},
 				},
-			},
-		],
-	})).toThrow('Polygons areas must be > 0');
+			],
+		})).toThrow('Polygons areas must be > 0');
+	});
 });
 
-test('weird non-simple polygon that doesn\'t decompose properly', () => {
-	expect(() => validate({
-		...myLevel,
-		entities: [
-			{
-				type: 'normal',
-				params: {
-					isStatic: true,
-					vertices: [
-						{
-							'x': 120,
-							'y': 720,
+describe('weird non-simple polygon that doesn\'t decompose properly', () => {
+	['normal', 'deadly', 'breakable', 'bouncy', 'ice'].forEach((type) => {
+		test(type, () => {
+			expect(() => validate({
+				...myLevel,
+				entities: [
+					{
+						type,
+						params: {
+							isStatic: true,
+							vertices: [
+								{
+									'x': 120,
+									'y': 720,
+								},
+								{
+									'x': 300,
+									'y': 720,
+								},
+								{
+									'x': 120,
+									'y': 600,
+								},
+								{
+									'x': 180,
+									'y': 660,
+								},
+								{
+									'x': 300,
+									'y': 720,
+								},
+								{
+									'x': 60,
+									'y': 480,
+								},
+								{
+									'x': 120,
+									'y': 660,
+								},
+							],
 						},
-						{
-							'x': 300,
-							'y': 720,
-						},
-						{
-							'x': 120,
-							'y': 600,
-						},
-						{
-							'x': 180,
-							'y': 660,
-						},
-						{
-							'x': 300,
-							'y': 720,
-						},
-						{
-							'x': 60,
-							'y': 480,
-						},
-						{
-							'x': 120,
-							'y': 660,
-						},
-					],
+					},
+				],
+			})).toThrow('Can\'t decompose properly');
+		});
+	});
+
+	test('paint', () => {
+		expect(() => validate({
+			...myLevel,
+			entities: [
+				{
+					type: 'paint',
+					params: {
+						vertices: [
+							{
+								'x': 120,
+								'y': 720,
+							},
+							{
+								'x': 300,
+								'y': 720,
+							},
+							{
+								'x': 120,
+								'y': 600,
+							},
+							{
+								'x': 180,
+								'y': 660,
+							},
+							{
+								'x': 300,
+								'y': 720,
+							},
+							{
+								'x': 60,
+								'y': 480,
+							},
+							{
+								'x': 120,
+								'y': 660,
+							},
+						],
+						fillColor: 0xffffff,
+					},
 				},
-			},
-		],
-	})).toThrow('Can\'t decompose properly');
+			],
+		})).toThrow('Can\'t decompose properly');
+	});
+});
+
+describe('paint works', () => {
+	test('floating fillColor', () => {
+		expect(() => validate({
+			...myLevel,
+			entities: [
+				{
+					type: 'paint',
+					params: {
+						vertices: [
+							{
+								'x': 120,
+								'y': 720,
+							},
+							{
+								'x': 300,
+								'y': 720,
+							},
+							{
+								'x': 120,
+								'y': 600,
+							},
+						],
+						fillColor: 0.5,
+					},
+				},
+			],
+		})).toThrow();
+	});
+	test('negative fillColor', () => {
+		expect(() => validate({
+			...myLevel,
+			entities: [
+				{
+					type: 'paint',
+					params: {
+						vertices: [
+							{
+								'x': 120,
+								'y': 720,
+							},
+							{
+								'x': 300,
+								'y': 720,
+							},
+							{
+								'x': 120,
+								'y': 600,
+							},
+						],
+						fillColor: -1,
+					},
+				},
+			],
+		})).toThrow();
+	});
+	test('too big fillColor', () => {
+		expect(() => validate({
+			...myLevel,
+			entities: [
+				{
+					type: 'paint',
+					params: {
+						vertices: [
+							{
+								'x': 120,
+								'y': 720,
+							},
+							{
+								'x': 300,
+								'y': 720,
+							},
+							{
+								'x': 120,
+								'y': 600,
+							},
+						],
+						fillColor: 9999999999,
+					},
+				},
+			],
+		})).toThrow();
+	});
+	test('correct', () => {
+		expect(validate({
+			...myLevel,
+			entities: [
+				{
+					type: 'paint',
+					params: {
+						vertices: [
+							{
+								'x': 120,
+								'y': 720,
+							},
+							{
+								'x': 300,
+								'y': 720,
+							},
+							{
+								'x': 120,
+								'y': 600,
+							},
+						],
+						fillColor: 0x123456,
+					},
+				},
+			],
+		})).toBe(0);
+	});
 });

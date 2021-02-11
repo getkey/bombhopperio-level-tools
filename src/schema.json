@@ -32,6 +32,16 @@
 				}
 			}
 		},
+		"vertices": {
+			"type": "array",
+			"minItems": 3,
+			"items": { "$ref": "#/definitions/point" }
+		},
+		"color": {
+			"type": "integer",
+			"minimum": 0,
+			"maximum": 16777215
+		},
 		"block_entity": {
 			"allOf": [
 				{
@@ -54,9 +64,7 @@
 											"type": "boolean"
 										},
 										"vertices": {
-											"type": "array",
-											"minItems": 3,
-											"items": { "$ref": "#/definitions/point" }
+											"$ref": "#/definitions/vertices"
 										}
 									}
 								},
@@ -81,6 +89,34 @@
 									}
 								}
 							]
+						}
+					}
+				}
+			]
+		},
+		"paint_entity": {
+			"allOf": [
+				{
+					"$ref": "#/definitions/entity_base"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"type": {
+							"const": "paint"
+						},
+						"params": {
+							"type": "object",
+							"additionalProperties": false,
+							"required": ["vertices", "fillColor"],
+							"properties": {
+								"vertices": {
+									"$ref": "#/definitions/vertices"
+								},
+								"fillColor": {
+									"$ref": "#/definitions/color"
+								}
+							}
 						}
 					}
 				}
@@ -243,6 +279,9 @@
 			"oneOf": [
 				{
 					"$ref": "#/definitions/block_entity"
+				},
+				{
+					"$ref": "#/definitions/paint_entity"
 				},
 				{
 					"$ref": "#/definitions/text_entity"
