@@ -88,3 +88,38 @@ export function getTextBounds(textEntity: any): { top: number; right: number; bo
 		left: textEntity.params.x - width/2,
 	};
 }
+
+export function centerEntities(entities: Array<any>, { x, y } = { x: 0, y: 0 }): Array<any> {
+	const { top, right, bottom, left } = getBounds(entities);
+	const center = {
+		x: left + (right - left)/2,
+		y: top + (bottom - top)/2,
+	};
+
+	return entities.map((entity) => {
+		if ('vertices' in entity.params) {
+			return {
+				...entity,
+				params: {
+					...entity.params,
+					vertices: entity.params.vertices.map((vertex: any) => ({
+						x: vertex.x - center.x + x,
+						y: vertex.y - center.y + y,
+					})),
+				},
+			};
+		}
+
+		if ('x' in entity.params && 'y' in entity.params) {
+			return {
+				...entity,
+				params: {
+					...entity.params,
+					x: entity.params.x - center.x + x,
+					y: entity.params.y - center.y + y,
+				},
+			};
+		}
+		return entity;
+	});
+}

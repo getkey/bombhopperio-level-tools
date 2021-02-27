@@ -1,4 +1,4 @@
-import { getBounds, getTextBounds } from './entities';
+import { getBounds, getTextBounds, centerEntities } from './entities';
 
 describe('getBounds', () => {
 	test('polygon', () => {
@@ -192,5 +192,79 @@ describe('getTextBounds', () => {
 			bottom: 8,
 			left: -8,
 		});
+	});
+});
+
+describe('centerEntities', () => {
+	test('simple', () => {
+		expect(centerEntities([
+			{
+				type: 'normal',
+				params: {
+					vertices: [
+						{
+							x: 100,
+							y: 100,
+						},
+						{
+							x: 100,
+							y: 200,
+						},
+						{
+							x: 200,
+							y: 200,
+						},
+						{
+							x: 200,
+							y: 100,
+						},
+					],
+				},
+			},
+			{
+				type: 'endpoint',
+				params: {
+					x: 150,
+					y: 150,
+					isStatic: true,
+					rightFacing: true,
+					angle: -0.9424777960769379,
+				},
+			},
+		])).toEqual([
+			{
+				type: 'normal',
+				params: {
+					vertices: [
+						{
+							x: -50,
+							y: -50,
+						},
+						{
+							x: -50,
+							y: 50,
+						},
+						{
+							x: 50,
+							y: 50,
+						},
+						{
+							x: 50,
+							y: -50,
+						},
+					],
+				},
+			},
+			{
+				type: 'endpoint',
+				params: {
+					x: 0,
+					y: 0,
+					isStatic: true,
+					rightFacing: true,
+					angle: -0.9424777960769379,
+				},
+			},
+		]);
 	});
 });

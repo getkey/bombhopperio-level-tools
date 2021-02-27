@@ -1,7 +1,7 @@
 {
   "name": "bombhopperio-level-tools",
   "license": "Apache-2.0",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Library to check that a level file is valid",
   "homepage": "https://github.com/getkey/bombhopperio-level-tools",
   "repository": {
