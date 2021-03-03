@@ -1,31 +1,31 @@
-import { validate } from './validator';
+import { validateLevel } from './validator';
 import myLevel from './levelExamples/test_level_for_the_validator_tool.json';
 
 test('is an object', () => {
-	expect(() => validate([])).toThrow();
-	expect(() => validate(342)).toThrow();
-	expect(() => validate('yo')).toThrow();
-	expect(() => validate(null)).toThrow();
-	expect(() => validate(undefined)).toThrow();
+	expect(() => validateLevel([])).toThrow();
+	expect(() => validateLevel(342)).toThrow();
+	expect(() => validateLevel('yo')).toThrow();
+	expect(() => validateLevel(null)).toThrow();
+	expect(() => validateLevel(undefined)).toThrow();
 
 	// valid level
-	expect(validate(myLevel)).toBe(0);
+	expect(validateLevel(myLevel)).toBe(0);
 });
 
 test('only 2 stars timings', () => {
-	expect(() => validate({
+	expect(() => validateLevel({
 		name: 'tsner',
 		timings: [0],
 		entities: [],
 	})).toThrow();
 
-	expect(() => validate({
+	expect(() => validateLevel({
 		name: 'tsner',
 		timings: [1, 4, 5],
 		entities: [],
 	})).toThrow();
 
-	expect(validate({
+	expect(validateLevel({
 		name: 'tsner',
 		timings: [10, 2],
 		entities: [],
@@ -33,62 +33,62 @@ test('only 2 stars timings', () => {
 });
 
 test('2nd star > 3rd star', () => {
-	expect(() => validate({
+	expect(() => validateLevel({
 		...myLevel,
 		timings: [1, 4],
 	})).toThrow();
 
-	expect(validate({
+	expect(validateLevel({
 		...myLevel,
 		timings: [12345, 12345],
 	})).toBe(0);
 });
 
 test('timings are ints', () => {
-	expect(() => validate({
+	expect(() => validateLevel({
 		...myLevel,
 		timings: [23.12, 45],
 	})).toThrow();
 
-	expect(() => validate({
+	expect(() => validateLevel({
 		...myLevel,
 		timings: [23, 45.021],
 	})).toThrow();
 });
 
 test('timings <= 0', () => {
-	expect(() => validate({
+	expect(() => validateLevel({
 		...myLevel,
 		timings: [-23, 45],
 	})).toThrow();
 
-	expect(() => validate({
+	expect(() => validateLevel({
 		...myLevel,
 		timings: [23, -45],
 	})).toThrow();
 
-	expect(validate({
+	expect(validateLevel({
 		...myLevel,
 		timings: [0, 0],
 	})).toBe(0);
 });
 
 test('name not empty', () => {
-	expect(() => validate({
+	expect(() => validateLevel({
 		...myLevel,
 		name: '',
 	})).toThrow();
 });
 
 test('formatVersion is int', () => {
-	expect(() => validate({
+	expect(() => validateLevel({
 		...myLevel,
 		formatVersion: 123.23,
 	})).toThrow();
 });
 
 test('empty entities', () => {
-	expect(validate({
+	expect(validateLevel({
 		...myLevel,
 		entities: [],
 	})).toBe(0);
@@ -96,7 +96,7 @@ test('empty entities', () => {
 
 test('entity has to be in the proper format', () => {
 	[null, undefined, 1232132123.432432432, [], {}, 'estaioneariots'].forEach((trash) => {
-		expect(() => validate({
+		expect(() => validateLevel({
 			...myLevel,
 			entities: [trash],
 		})).toThrow();
@@ -106,7 +106,7 @@ test('entity has to be in the proper format', () => {
 
 ['normal', 'ice', 'bouncy', 'breakable', 'deadly'].forEach((blockType) => {
 	test(`${blockType} works`, () => {
-		expect(validate({
+		expect(validateLevel({
 			...myLevel,
 			entities: [
 				{
@@ -125,7 +125,7 @@ test('entity has to be in the proper format', () => {
 	});
 
 	test(`${blockType} should have at least 2 vertices`, () => {
-		expect(() => validate({
+		expect(() => validateLevel({
 			...myLevel,
 			entities: [
 				{
@@ -143,7 +143,7 @@ test('entity has to be in the proper format', () => {
 	});
 
 	test(`${blockType} should have at least 2 vertices`, () => {
-		expect(() => validate({
+		expect(() => validateLevel({
 			...myLevel,
 			entities: [
 				{
@@ -162,7 +162,7 @@ test('entity has to be in the proper format', () => {
 });
 
 test('type is always required', () => {
-	expect(() => validate({
+	expect(() => validateLevel({
 		...myLevel,
 		entities: [
 			{
@@ -180,7 +180,7 @@ test('type is always required', () => {
 });
 
 test('params is always required', () => {
-	expect(() => validate({
+	expect(() => validateLevel({
 		...myLevel,
 		entities: [
 			{
@@ -191,7 +191,7 @@ test('params is always required', () => {
 });
 
 test('vertices is always required for blocks', () => {
-	expect(() => validate({
+	expect(() => validateLevel({
 		...myLevel,
 		entities: [
 			{
@@ -205,7 +205,7 @@ test('vertices is always required for blocks', () => {
 });
 
 test('isStatic is optional for blocks', () => {
-	expect(validate({
+	expect(validateLevel({
 		...myLevel,
 		entities: [
 			{
@@ -223,7 +223,7 @@ test('isStatic is optional for blocks', () => {
 });
 
 test('vertices can have x, y and that\'s it', () => {
-	expect(() => validate({
+	expect(() => validateLevel({
 		...myLevel,
 		entities: [
 			{
@@ -240,7 +240,7 @@ test('vertices can have x, y and that\'s it', () => {
 		],
 	})).toThrow();
 
-	expect(() => validate({
+	expect(() => validateLevel({
 		...myLevel,
 		entities: [
 			{
@@ -259,7 +259,7 @@ test('vertices can have x, y and that\'s it', () => {
 });
 
 test('entities always and only have type and params', () => {
-	expect(validate({
+	expect(validateLevel({
 		...myLevel,
 		entities: [
 			{
@@ -276,7 +276,7 @@ test('entities always and only have type and params', () => {
 		],
 	})).toEqual(0);
 
-	expect(() => validate({
+	expect(() => validateLevel({
 		...myLevel,
 		entities: [
 			{
@@ -292,7 +292,7 @@ test('entities always and only have type and params', () => {
 		],
 	})).toThrow();
 
-	expect(validate({
+	expect(validateLevel({
 		...myLevel,
 		entities: [
 			{
@@ -314,7 +314,7 @@ test('entities always and only have type and params', () => {
 	})).toEqual(0);
 
 	['text', 'normal', 'bouncy', 'breakable'].forEach((type) => {
-		expect(() => validate({
+		expect(() => validateLevel({
 			...myLevel,
 			entities: [
 				{
@@ -326,7 +326,7 @@ test('entities always and only have type and params', () => {
 });
 
 test('x, y, copy and anchor are required', () => {
-	expect(() => validate({
+	expect(() => validateLevel({
 		...myLevel,
 		entities: [
 			{
@@ -345,7 +345,7 @@ test('x, y, copy and anchor are required', () => {
 		],
 	})).toThrow();
 
-	expect(() => validate({
+	expect(() => validateLevel({
 		...myLevel,
 		entities: [
 			{
@@ -364,7 +364,7 @@ test('x, y, copy and anchor are required', () => {
 		],
 	})).toThrow();
 
-	expect(() => validate({
+	expect(() => validateLevel({
 		...myLevel,
 		entities: [
 			{
@@ -381,7 +381,7 @@ test('x, y, copy and anchor are required', () => {
 		],
 	})).toThrow();
 
-	expect(() => validate({
+	expect(() => validateLevel({
 		...myLevel,
 		entities: [
 			{
@@ -399,7 +399,7 @@ test('x, y, copy and anchor are required', () => {
 });
 
 test('text can have anything as a language code', () => {
-	expect(validate({
+	expect(validateLevel({
 		...myLevel,
 		entities: [
 			{
@@ -422,7 +422,7 @@ test('text can have anything as a language code', () => {
 });
 
 test('text needs english', () => {
-	expect(() => validate({
+	expect(() => validateLevel({
 		...myLevel,
 		entities: [
 			{
@@ -445,7 +445,7 @@ test('text needs english', () => {
 });
 
 test('x, y, isStatic and angle are required in endpoint', () => {
-	expect(() => validate({
+	expect(() => validateLevel({
 		...myLevel,
 		entities: [
 			{
@@ -460,7 +460,7 @@ test('x, y, isStatic and angle are required in endpoint', () => {
 		],
 	})).toThrow();
 
-	expect(() => validate({
+	expect(() => validateLevel({
 		...myLevel,
 		entities: [
 			{
@@ -475,7 +475,7 @@ test('x, y, isStatic and angle are required in endpoint', () => {
 		],
 	})).toThrow();
 
-	expect(() => validate({
+	expect(() => validateLevel({
 		...myLevel,
 		entities: [
 			{
@@ -490,7 +490,7 @@ test('x, y, isStatic and angle are required in endpoint', () => {
 		],
 	})).toThrow();
 
-	expect(() => validate({
+	expect(() => validateLevel({
 		...myLevel,
 		entities: [
 			{
@@ -508,7 +508,7 @@ test('x, y, isStatic and angle are required in endpoint', () => {
 
 
 test('rightFacing is optional in endpoint', () => {
-	expect(validate({
+	expect(validateLevel({
 		...myLevel,
 		entities: [
 			{
@@ -524,7 +524,7 @@ test('rightFacing is optional in endpoint', () => {
 		],
 	})).toEqual(0);
 
-	expect(validate({
+	expect(validateLevel({
 		...myLevel,
 		entities: [
 			{
@@ -541,7 +541,7 @@ test('rightFacing is optional in endpoint', () => {
 });
 
 test('complex polygons are rejected', () => {
-	expect(() => validate({
+	expect(() => validateLevel({
 		...myLevel,
 		entities: [
 			{
@@ -573,7 +573,7 @@ test('complex polygons are rejected', () => {
 });
 
 test('polygons with equal adjacent points are rejected', () => {
-	expect(() => validate({
+	expect(() => validateLevel({
 		...myLevel,
 		entities: [
 			{
@@ -607,7 +607,7 @@ test('polygons with equal adjacent points are rejected', () => {
 describe('polygons with 0 area are rejected', () => {
 	['normal', 'deadly', 'breakable', 'bouncy', 'ice'].forEach((type) => {
 		test(type, () => {
-			expect(() => validate({
+			expect(() => validateLevel({
 				...myLevel,
 				entities: [
 					{
@@ -639,7 +639,7 @@ describe('polygons with 0 area are rejected', () => {
 		});
 	});
 	test('paint', () => {
-		expect(() => validate({
+		expect(() => validateLevel({
 			...myLevel,
 			entities: [
 				{
@@ -674,7 +674,7 @@ describe('polygons with 0 area are rejected', () => {
 describe('weird non-simple polygon that doesn\'t decompose properly', () => {
 	['normal', 'deadly', 'breakable', 'bouncy', 'ice'].forEach((type) => {
 		test(type, () => {
-			expect(() => validate({
+			expect(() => validateLevel({
 				...myLevel,
 				entities: [
 					{
@@ -719,7 +719,7 @@ describe('weird non-simple polygon that doesn\'t decompose properly', () => {
 	});
 
 	test('paint', () => {
-		expect(() => validate({
+		expect(() => validateLevel({
 			...myLevel,
 			entities: [
 				{
@@ -765,7 +765,7 @@ describe('weird non-simple polygon that doesn\'t decompose properly', () => {
 
 describe('paint works', () => {
 	test('floating fillColor', () => {
-		expect(() => validate({
+		expect(() => validateLevel({
 			...myLevel,
 			entities: [
 				{
@@ -792,7 +792,7 @@ describe('paint works', () => {
 		})).toThrow();
 	});
 	test('negative fillColor', () => {
-		expect(() => validate({
+		expect(() => validateLevel({
 			...myLevel,
 			entities: [
 				{
@@ -819,7 +819,7 @@ describe('paint works', () => {
 		})).toThrow();
 	});
 	test('too big fillColor', () => {
-		expect(() => validate({
+		expect(() => validateLevel({
 			...myLevel,
 			entities: [
 				{
@@ -846,7 +846,7 @@ describe('paint works', () => {
 		})).toThrow();
 	});
 	test('correct', () => {
-		expect(validate({
+		expect(validateLevel({
 			...myLevel,
 			entities: [
 				{

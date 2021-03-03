@@ -3,22 +3,22 @@
 
 import Ajv from 'ajv';
 
-import schema from './schema.json';
+import levelSchema from './level.schema.json';
+import entitySchema from './entity.schema.json';
+import prefabSchema from './prefab.schema.json';
 import { polygonIsSimple, hasEqualConsecutiveVertices, polygonArea, consecutivePointsFormEmptyTriangles, canBeDecomposed } from './utils/geom';
 
 const ajv = new Ajv();
-const validator = ajv.compile(schema);
+ajv.addSchema(entitySchema);
 
-export function validate(level: any): number {
-	const valid = validator(level);
+const levelValidator = ajv
+	.compile(levelSchema);
+const prefabValidator = ajv
+	.compile(prefabSchema);
 
-	if (!valid) throw validator.errors;
-
-	if (level.timings[0] < level.timings[1]) {
-		throw new Error('Time to get 2rd star must be higher than time to get 3rd star');
-	}
-
-	level.entities
+function validateEntities(entities: any): void {
+	// replace this by user-defined keywords https://ajv.js.org/docs/validation.html#user-defined-keywords
+	entities
 		.map((entity: any, i: number) => ([entity, i]))
 		.filter(([entity]: [any]) => entity.params.vertices)
 		.forEach(([entity, i]: [any, number]) => {
@@ -42,6 +42,26 @@ export function validate(level: any): number {
 				throw new Error(`Entity ${i}: Can't decompose properly`);
 			}
 		});
+}
+
+export function validateLevel(level: any): number {
+	const valid = levelValidator(level);
+
+	if (!valid) throw levelValidator.errors;
+
+	if (level.timings[0] < level.timings[1]) {
+		throw new Error('Time to get 2rd star must be higher than time to get 3rd star');
+	}
+
+	validateEntities(level.entities);
 
 	return level.formatVersion || 0;
+}
+
+export function validatePrefab(prefab: any): void {
+	const valid = prefabValidator(prefab);
+
+	if (!valid) throw prefabValidator.errors;
+
+	validateEntities(prefab);
 }

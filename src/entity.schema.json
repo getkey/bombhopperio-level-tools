@@ -1,6 +1,7 @@
+
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
-	"$id": "https://bombhopper.io/level.schema.json",
+	"$id": "https://bombhopper.io/entity.schema.json",
 	"definitions": {
 		"point": {
 			"type": "object",
@@ -14,10 +15,6 @@
 					"type": "number"
 				}
 			}
-		},
-		"start_timing": {
-			"type": "integer",
-			"minimum": 0
 		},
 		"entity_base": {
 			"type": "object",
@@ -274,63 +271,25 @@
 					}
 				}
 			]
-		},
-		"entity": {
-			"oneOf": [
-				{
-					"$ref": "#/definitions/block_entity"
-				},
-				{
-					"$ref": "#/definitions/paint_entity"
-				},
-				{
-					"$ref": "#/definitions/text_entity"
-				},
-				{
-					"$ref": "#/definitions/door_entity"
-				},
-				{
-					"$ref": "#/definitions/hoppi_entity"
-				}
-			]
 		}
 	},
-	"title": "Level",
-	"description": "A BombHopper.io level",
-	"type": "object",
-	"additionalProperties": false,
-	"required": ["name", "timings", "entities"],
-	"properties": {
-		"name": {
-			"type": "string",
-			"description": "The level's name",
-			"minLength": 1
+	"title": "Entity",
+	"description": "A BombHopper.io entity",
+	"oneOf": [
+		{
+			"$ref": "#/definitions/block_entity"
 		},
-		"timings": {
-			"type": "array",
-			"items": [
-				{
-					"description": "2 stars",
-					"$ref": "#/definitions/start_timing"
-				},
-				{
-					"description": "3 stars",
-					"$ref": "#/definitions/start_timing"
-				}
-			],
-			"minItems": 2,
-			"additionalItems": false
+		{
+			"$ref": "#/definitions/paint_entity"
 		},
-		"formatVersion": {
-			"type": "integer",
-			"description": "The version number of the schema the file corresponds to",
-			"minimum": 0
+		{
+			"$ref": "#/definitions/text_entity"
 		},
-		"entities": {
-			"type": "array",
-			"items": {
-				"$ref": "#/definitions/entity"
-			}
+		{
+			"$ref": "#/definitions/door_entity"
+		},
+		{
+			"$ref": "#/definitions/hoppi_entity"
 		}
-	}
+	]
 }

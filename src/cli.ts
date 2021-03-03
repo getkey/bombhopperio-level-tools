@@ -3,7 +3,7 @@
 /* eslint-disable no-console */
 
 import { readFileSync } from 'fs';
-import { validate } from './validator';
+import { validateLevel } from './validator';
 
 if (process.argv.length < 3) {
 	console.error('Not enough arguments');
@@ -11,7 +11,7 @@ if (process.argv.length < 3) {
 }
 
 switch(process.argv[2]) {
-	case 'validate': {
+	case 'validate-level': {
 		if (process.argv.length < 4) {
 			console.error('Not enough arguments');
 			process.exit(3);
@@ -19,7 +19,7 @@ switch(process.argv[2]) {
 		process.argv.slice(3).forEach((path) => {
 			const file = JSON.parse(readFileSync(path, 'utf-8'));
 			try {
-				const levelVersion = validate(file);
+				const levelVersion = validateLevel(file);
 				console.log(`${path} is a valid level of version ${levelVersion}`);
 			} catch (err) {
 				console.log(`${path} is not a valid level:`, err);
