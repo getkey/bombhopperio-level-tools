@@ -569,7 +569,7 @@ test('complex polygons are rejected', () => {
 				},
 			},
 		],
-	})).toThrow('Complex polygons aren\'t allowed');
+	})).toThrow();
 });
 
 test('polygons with equal adjacent points are rejected', () => {
@@ -601,7 +601,7 @@ test('polygons with equal adjacent points are rejected', () => {
 				},
 			},
 		],
-	})).toThrow('Consecutive vertices can\'t have the same position');
+	})).toThrow();
 });
 
 describe('polygons with 0 area are rejected', () => {
@@ -635,7 +635,7 @@ describe('polygons with 0 area are rejected', () => {
 						},
 					},
 				],
-			})).toThrow('Polygons areas must be > 0');
+			})).toThrow();
 		});
 	});
 	test('paint', () => {
@@ -667,7 +667,7 @@ describe('polygons with 0 area are rejected', () => {
 					},
 				},
 			],
-		})).toThrow('Polygons areas must be > 0');
+		})).toThrow();
 	});
 });
 
@@ -714,7 +714,7 @@ describe('weird non-simple polygon that doesn\'t decompose properly', () => {
 						},
 					},
 				],
-			})).toThrow('Can\'t decompose properly');
+			})).toThrow();
 		});
 	});
 
@@ -759,7 +759,7 @@ describe('weird non-simple polygon that doesn\'t decompose properly', () => {
 					},
 				},
 			],
-		})).toThrow('Can\'t decompose properly');
+		})).toThrow();
 	});
 });
 

@@ -31,6 +31,7 @@
 				}
 			],
 			"minItems": 2,
+			"order": "desc",
 			"additionalItems": false
 		},
 		"formatVersion": {

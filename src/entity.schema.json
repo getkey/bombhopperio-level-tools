@@ -32,7 +32,8 @@
 		"vertices": {
 			"type": "array",
 			"minItems": 3,
-			"items": { "$ref": "#/definitions/point" }
+			"items": { "$ref": "#/definitions/point" },
+			"polygon": true
 		},
 		"color": {
 			"type": "integer",

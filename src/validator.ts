@@ -1,59 +1,79 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types */
 
-import Ajv from 'ajv';
+import Ajv, { FuncKeywordDefinition } from 'ajv';
 
 import levelSchema from './level.schema.json';
 import entitySchema from './entity.schema.json';
 import prefabSchema from './prefab.schema.json';
 import { polygonIsSimple, hasEqualConsecutiveVertices, polygonArea, consecutivePointsFormEmptyTriangles, canBeDecomposed } from './utils/geom';
 
+type ValidatorFunction = FuncKeywordDefinition['validate'];
+
 const ajv = new Ajv();
 ajv.addSchema(entitySchema);
+
+function polygonValidator(_: unknown, vertices: any): boolean {
+	if (!polygonIsSimple(vertices)) {
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		(polygonValidator as ValidatorFunction)!.errors = [{ message: 'Complex polygons aren\'t allowed' }];
+		return false;
+	}
+
+	if(hasEqualConsecutiveVertices(vertices)) {
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		(polygonValidator as ValidatorFunction)!.errors = [{ message: 'Consecutive vertices can\'t have the same position' }];
+		return false;
+	}
+
+	if (!(polygonArea(vertices) > 0)) {
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		(polygonValidator as ValidatorFunction)!.errors = [{ message: 'Polygons areas must be > 0' }];
+		return false;
+	}
+
+	if (consecutivePointsFormEmptyTriangles(vertices)) {
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		(polygonValidator as ValidatorFunction)!.errors = [{ message: 'The triangle formed by 3 consecutive points in a polygon must be of area > 0' }];
+		return false;
+	}
+
+	if (!canBeDecomposed(vertices)) {
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		(polygonValidator as ValidatorFunction)!.errors = [{ message: 'Can\'t decompose properly' }];
+		return false;
+	}
+
+
+	return true;
+}
+
+ajv.addKeyword({
+	keyword: 'polygon',
+	validate: polygonValidator,
+});
+
+function orderValidator(order: 'desc' | 'asc', array: Array<number>): boolean {
+	switch (order) {
+		case 'desc':
+			return array.every((v, i, a) => i === 0 || a[i - 1] >= v);
+		case 'asc':
+			return array.every((v, i, a) => i === 0 || a[i - 1] <= v);
+	}
+}
+ajv.addKeyword({
+	keyword: 'order',
+	validate: orderValidator,
+});
 
 const levelValidator = ajv
 	.compile(levelSchema);
 const prefabValidator = ajv
 	.compile(prefabSchema);
 
-function validateEntities(entities: any): void {
-	// replace this by user-defined keywords https://ajv.js.org/docs/validation.html#user-defined-keywords
-	entities
-		.map((entity: any, i: number) => ([entity, i]))
-		.filter(([entity]: [any]) => entity.params.vertices)
-		.forEach(([entity, i]: [any, number]) => {
-			if (!polygonIsSimple(entity.params.vertices)) {
-				throw new Error(`Entity ${i}: Complex polygons aren't allowed`);
-			}
-
-			if(hasEqualConsecutiveVertices(entity.params.vertices)) {
-				throw new Error(`Entity ${i}: Consecutive vertices can't have the same position`);
-			}
-
-			if (!(polygonArea(entity.params.vertices) > 0)) {
-				throw new Error(`Entity ${i}: Polygons areas must be > 0`);
-			}
-
-			if (consecutivePointsFormEmptyTriangles(entity.params.vertices)) {
-				throw new Error(`Entity ${i}: The triangle formed by 3 consecutive points in a polygon must be of area > 0`);
-			}
-
-			if (!canBeDecomposed(entity.params.vertices)) {
-				throw new Error(`Entity ${i}: Can't decompose properly`);
-			}
-		});
-}
-
 export function validateLevel(level: any): number {
 	const valid = levelValidator(level);
 
 	if (!valid) throw levelValidator.errors;
-
-	if (level.timings[0] < level.timings[1]) {
-		throw new Error('Time to get 2rd star must be higher than time to get 3rd star');
-	}
-
-	validateEntities(level.entities);
 
 	return level.formatVersion || 0;
 }
@@ -62,6 +82,4 @@ export function validatePrefab(prefab: any): void {
 	const valid = prefabValidator(prefab);
 
 	if (!valid) throw prefabValidator.errors;
-
-	validateEntities(prefab);
 }

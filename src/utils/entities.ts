@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types */
+
 export function getBounds(entities: Array<any>): { top: number; right: number; bottom: number; left: number; } {
 	return entities.flatMap((entity) => {
 		if (entity.type === 'text') {
