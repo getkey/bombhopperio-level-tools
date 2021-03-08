@@ -21,11 +21,11 @@ export function getBounds(entities: Array<any>): { top: number; right: number; b
 			return [
 				{
 					x: entity.params.x - 50,
-					y: entity.params.x - 80,
+					y: entity.params.y - 80,
 				},
 				{
 					x: entity.params.x + 50,
-					y: entity.params.x + 80,
+					y: entity.params.y + 80,
 				},
 			];
 		}
@@ -34,11 +34,11 @@ export function getBounds(entities: Array<any>): { top: number; right: number; b
 			return [
 				{
 					x: entity.params.x - 20,
-					y: entity.params.x - 20,
+					y: entity.params.y - 20,
 				},
 				{
 					x: entity.params.x + 20,
-					y: entity.params.x + 20,
+					y: entity.params.y + 20,
 				},
 			];
 		}

@@ -91,6 +91,44 @@ describe('getBounds', () => {
 			left: -16,
 		});
 	});
+	test('door', () => {
+		expect(getBounds([{
+			type: 'endpoint',
+			params: {
+				angle: 0,
+				isStatic: true,
+				rightFacing: true,
+				x: 550,
+				y: 630,
+			},
+		}])).toEqual({
+			top: 630 - 80,
+			right: 550 + 50,
+			bottom: 630 + 80,
+			left: 550 - 50,
+		});
+	});
+	test('hoppi', () => {
+		expect(getBounds([{
+			type: 'player',
+			params: {
+				angle: 0,
+				isStatic: true,
+				x: 550,
+				y: 630,
+				magazine: [
+					'grenade',
+					'bullet',
+					'empty',
+				],
+			},
+		}])).toEqual({
+			top: 630 - 20,
+			right: 550 + 20,
+			bottom: 630 + 20,
+			left: 550 - 20,
+		});
+	});
 	test('everything together', () => {
 		expect(getBounds([
 			{
@@ -263,6 +301,31 @@ describe('centerEntities', () => {
 					isStatic: true,
 					rightFacing: true,
 					angle: -0.9424777960769379,
+				},
+			},
+		]);
+	});
+	test('with a point', () => {
+		expect(centerEntities([
+			{
+				type: 'endpoint',
+				params: {
+					angle: 0,
+					isStatic: true,
+					rightFacing: true,
+					x: 550,
+					y: 630,
+				},
+			},
+		], { x: 420, y: 600 })).toEqual([
+			{
+				type: 'endpoint',
+				params: {
+					angle: 0,
+					isStatic: true,
+					rightFacing: true,
+					x: 420,
+					y: 600,
 				},
 			},
 		]);
