@@ -194,6 +194,10 @@
 								},
 								"angle": {
 									"type": "number"
+								},
+								"destination": {
+									"type": "string",
+									"format": "uuid"
 								}
 							}
 						}

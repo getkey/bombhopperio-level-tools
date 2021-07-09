@@ -444,100 +444,136 @@ test('text needs english', () => {
 	})).toThrow();
 });
 
-test('x, y, isStatic and angle are required in endpoint', () => {
-	expect(() => validateLevel({
-		...myLevel,
-		entities: [
-			{
-				type: 'endpoint',
-				params: {
-					y: 360,
-					isStatic: true,
-					rightFacing: true,
-					angle: 0,
+describe('endpoint', () => {
+	test('x, y, isStatic and angle are required in endpoint', () => {
+		expect(() => validateLevel({
+			...myLevel,
+			entities: [
+				{
+					type: 'endpoint',
+					params: {
+						y: 360,
+						isStatic: true,
+						rightFacing: true,
+						angle: 0,
+					},
 				},
-			},
-		],
-	})).toThrow();
+			],
+		})).toThrow();
 
-	expect(() => validateLevel({
-		...myLevel,
-		entities: [
-			{
-				type: 'endpoint',
-				params: {
-					x: 900,
-					isStatic: true,
-					rightFacing: true,
-					angle: 0,
+		expect(() => validateLevel({
+			...myLevel,
+			entities: [
+				{
+					type: 'endpoint',
+					params: {
+						x: 900,
+						isStatic: true,
+						rightFacing: true,
+						angle: 0,
+					},
 				},
-			},
-		],
-	})).toThrow();
+			],
+		})).toThrow();
 
-	expect(() => validateLevel({
-		...myLevel,
-		entities: [
-			{
-				type: 'endpoint',
-				params: {
-					x: 900,
-					y: 360,
-					rightFacing: true,
-					angle: 0,
+		expect(() => validateLevel({
+			...myLevel,
+			entities: [
+				{
+					type: 'endpoint',
+					params: {
+						x: 900,
+						y: 360,
+						rightFacing: true,
+						angle: 0,
+					},
 				},
-			},
-		],
-	})).toThrow();
+			],
+		})).toThrow();
 
-	expect(() => validateLevel({
-		...myLevel,
-		entities: [
-			{
-				type: 'endpoint',
-				params: {
-					x: 900,
-					y: 360,
-					isStatic: true,
-					rightFacing: true,
+		expect(() => validateLevel({
+			...myLevel,
+			entities: [
+				{
+					type: 'endpoint',
+					params: {
+						x: 900,
+						y: 360,
+						isStatic: true,
+						rightFacing: true,
+					},
 				},
-			},
-		],
-	})).toThrow();
-});
+			],
+		})).toThrow();
+	});
 
-
-test('rightFacing is optional in endpoint', () => {
-	expect(validateLevel({
-		...myLevel,
-		entities: [
-			{
-				type: 'endpoint',
-				params: {
-					x: 900,
-					y: 360,
-					isStatic: true,
-					rightFacing: false,
-					angle: 0,
+	test('rightFacing is optional in endpoint', () => {
+		expect(validateLevel({
+			...myLevel,
+			entities: [
+				{
+					type: 'endpoint',
+					params: {
+						x: 900,
+						y: 360,
+						isStatic: true,
+						rightFacing: false,
+						angle: 0,
+					},
 				},
-			},
-		],
-	})).toEqual(0);
+			],
+		})).toEqual(0);
 
-	expect(validateLevel({
-		...myLevel,
-		entities: [
-			{
-				type: 'endpoint',
-				params: {
-					x: 900,
-					y: 360,
-					isStatic: true,
-					angle: 0,
+		expect(validateLevel({
+			...myLevel,
+			entities: [
+				{
+					type: 'endpoint',
+					params: {
+						x: 900,
+						y: 360,
+						isStatic: true,
+						angle: 0,
+					},
 				},
-			},
-		],
-	})).toEqual(0);
+			],
+		})).toEqual(0);
+	});
+
+
+	test('destination is a uuid v4', () => {
+		expect(validateLevel({
+			...myLevel,
+			entities: [
+				{
+					type: 'endpoint',
+					params: {
+						x: 900,
+						y: 360,
+						isStatic: true,
+						angle: 0,
+						destination: 'b3cd72ad-e47c-4aac-a720-3ea871d0330c',
+					},
+				},
+			],
+		})).toEqual(0);
+
+		expect(() => validateLevel({
+			...myLevel,
+			entities: [
+				{
+					type: 'endpoint',
+					params: {
+						x: 900,
+						y: 360,
+						isStatic: true,
+						angle: 0,
+						destination: 'noob',
+					},
+				},
+			],
+		})).toThrow();
+	});
 });
 
 test('complex polygons are rejected', () => {

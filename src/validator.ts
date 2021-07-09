@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types */
 
 import Ajv, { FuncKeywordDefinition } from 'ajv';
+import addFormats from 'ajv-formats';
 
 import levelSchema from './level.schema.json';
 import entitySchema from './entity.schema.json';
@@ -10,6 +11,7 @@ import { polygonIsSimple, hasEqualConsecutiveVertices, polygonArea, consecutiveP
 type ValidatorFunction = FuncKeywordDefinition['validate'];
 
 const ajv = new Ajv();
+addFormats(ajv);
 ajv.addSchema(entitySchema);
 
 function polygonValidator(_: unknown, vertices: any): boolean {

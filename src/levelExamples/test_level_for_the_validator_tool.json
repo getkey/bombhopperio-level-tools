@@ -72,7 +72,8 @@
 				"y": 360,
 				"isStatic": true,
 				"rightFacing": true,
-				"angle": -0.9424777960769379
+				"angle": -0.9424777960769379,
+				"destination": "b3cd72ad-e47c-4aac-a720-3ea871d0330c"
 			}
 		},
 		{
