@@ -1,12 +1,13 @@
 import { validateLevel } from './validator';
 import myLevel from './levelExamples/test_level_for_the_validator_tool.json';
+import { Level } from './schemaTypes';
 
 test('is an object', () => {
-	expect(() => validateLevel([])).toThrow();
-	expect(() => validateLevel(342)).toThrow();
-	expect(() => validateLevel('yo')).toThrow();
-	expect(() => validateLevel(null)).toThrow();
-	expect(() => validateLevel(undefined)).toThrow();
+	expect(() => validateLevel([] as unknown as Level)).toThrow();
+	expect(() => validateLevel(342 as unknown as Level)).toThrow();
+	expect(() => validateLevel('yo' as unknown as Level)).toThrow();
+	expect(() => validateLevel(null as unknown as Level)).toThrow();
+	expect(() => validateLevel(undefined as unknown as Level)).toThrow();
 
 	// valid level
 	expect(validateLevel(myLevel)).toBe(0);
@@ -17,18 +18,21 @@ test('only 2 stars timings', () => {
 		name: 'tsner',
 		timings: [0],
 		entities: [],
+		formatVersion: 0,
 	})).toThrow();
 
 	expect(() => validateLevel({
 		name: 'tsner',
 		timings: [1, 4, 5],
 		entities: [],
+		formatVersion: 0,
 	})).toThrow();
 
 	expect(validateLevel({
 		name: 'tsner',
 		timings: [10, 2],
 		entities: [],
+		formatVersion: 0,
 	})).toBe(0);
 });
 

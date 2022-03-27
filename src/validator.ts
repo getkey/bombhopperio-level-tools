@@ -7,6 +7,7 @@ import levelSchema from './level.schema.json';
 import entitySchema from './entity.schema.json';
 import prefabSchema from './prefab.schema.json';
 import { polygonIsSimple, hasEqualConsecutiveVertices, polygonArea, consecutivePointsFormEmptyTriangles, canBeDecomposed } from './utils/geom';
+import { Level, Prefab } from './schemaTypes';
 
 type ValidatorFunction = FuncKeywordDefinition['validate'];
 
@@ -68,19 +69,20 @@ ajv.addKeyword({
 });
 
 const levelValidator = ajv
-	.compile(levelSchema);
+	.compile<Level>(levelSchema);
 const prefabValidator = ajv
-	.compile(prefabSchema);
+	.compile<Prefab>(prefabSchema);
 
-export function validateLevel(level: any): number {
+
+export function validateLevel(level: Level): number {
 	const valid = levelValidator(level);
 
 	if (!valid) throw levelValidator.errors;
 
-	return level.formatVersion || 0;
+	return (level.formatVersion as undefined | number) || 0;
 }
 
-export function validatePrefab(prefab: any): void {
+export function validatePrefab(prefab: Prefab): void {
 	const valid = prefabValidator(prefab);
 
 	if (!valid) throw prefabValidator.errors;
