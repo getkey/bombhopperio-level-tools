@@ -62,7 +62,8 @@
 						"y": 450
 					}
 				],
-				"fillColor": 48896
+				"fillColor": 48896,
+				"opacity": 0.9
 			}
 		},
 		{
@@ -118,13 +119,16 @@
 				"x": 780,
 				"y": 420,
 				"copy": {
-					"en": "static door"
+					"en": "static\ndoor"
 				},
 				"anchor": {
 					"x": 0.5,
 					"y": 0.5
 				},
-				"angle": 0.6457718232379019
+				"angle": 0.6457718232379019,
+				"fillColor": 16711680,
+				"opacity": 0.5,
+				"align": "right"
 			}
 		},
 		{

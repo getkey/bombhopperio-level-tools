@@ -40,6 +40,11 @@
 			"minimum": 0,
 			"maximum": 16777215
 		},
+		"opacity": {
+			"type": "number",
+			"minimum": 0,
+			"maximum": 1
+		},
 		"block_entity": {
 			"allOf": [
 				{
@@ -113,6 +118,9 @@
 								},
 								"fillColor": {
 									"$ref": "#/definitions/color"
+								},
+								"opacity": {
+									"$ref": "#/definitions/opacity"
 								}
 							}
 						}
@@ -157,6 +165,15 @@
 								"anchor": { "$ref": "#/definitions/point" },
 								"angle": {
 									"type": "number"
+								},
+								"opacity": {
+									"$ref": "#/definitions/opacity"
+								},
+								"align": {
+									"enum": ["left", "center", "right", "justify"]
+								},
+								"fillColor": {
+									"$ref": "#/definitions/color"
 								}
 							}
 						}
