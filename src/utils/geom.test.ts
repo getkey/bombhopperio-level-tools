@@ -168,56 +168,56 @@ describe('polygonIsSimple', () => {
 describe('lineSegmentsIntersect', () => {
 	test('intersecting lines', () => {
 		expect(lineSegmentsIntersect(
-			{ x: 0, y: 0},
-			{ x: 1, y: 1},
-			{ x: 1, y: 0},
-			{ x: 0, y: 1},
+			{ x: 0, y: 0 },
+			{ x: 1, y: 1 },
+			{ x: 1, y: 0 },
+			{ x: 0, y: 1 },
 		)).toBe(true);
 	});
 
 	test('point intersecting with point', () => {
 		expect(lineSegmentsIntersect(
-			{ x: 0, y: 0},
-			{ x: 1, y: 1},
-			{ x: 1, y: 1},
-			{ x: 2, y: 1},
+			{ x: 0, y: 0 },
+			{ x: 1, y: 1 },
+			{ x: 1, y: 1 },
+			{ x: 2, y: 1 },
 		)).toBe(false);
 	});
 
 	test('point intersecting with segment', () => {
 		expect(lineSegmentsIntersect(
-			{ x: 0, y: 0},
-			{ x: 2, y: 2},
-			{ x: 1, y: 1},
-			{ x: 2, y: 1},
+			{ x: 0, y: 0 },
+			{ x: 2, y: 2 },
+			{ x: 1, y: 1 },
+			{ x: 2, y: 1 },
 		)).toBe(false);
 	});
 
 	describe('not intersecting', () => {
 		test('parallel', () => {
 			expect(lineSegmentsIntersect(
-				{ x: 0, y: 0},
-				{ x: 2, y: 2},
-				{ x: 0, y: 1},
-				{ x: 2, y: 3},
+				{ x: 0, y: 0 },
+				{ x: 2, y: 2 },
+				{ x: 0, y: 1 },
+				{ x: 2, y: 3 },
 			)).toBe(false);
 		});
 
 		test('would intersect if they were lines', () => {
 			expect(lineSegmentsIntersect(
-				{ x: 0, y: 0},
-				{ x: 1, y: 1},
-				{ x: 0, y: 3},
-				{ x: 3, y: 0},
+				{ x: 0, y: 0 },
+				{ x: 1, y: 1 },
+				{ x: 0, y: 3 },
+				{ x: 3, y: 0 },
 			)).toBe(false);
 		});
 
 		test('they are the same segments', () => {
 			expect(lineSegmentsIntersect(
-				{ x: 0, y: 0},
-				{ x: 2, y: 2},
-				{ x: 0, y: 0},
-				{ x: 2, y: 2},
+				{ x: 0, y: 0 },
+				{ x: 2, y: 2 },
+				{ x: 0, y: 0 },
+				{ x: 2, y: 2 },
 			)).toBe(false);
 		});
 	});
@@ -226,28 +226,28 @@ describe('lineSegmentsIntersect', () => {
 describe('hasEqualConsecutiveVertices', () => {
 	test('no same adjacent points', () => {
 		expect(hasEqualConsecutiveVertices([
-			{ x: 0, y: 0},
-			{ x: 1, y: 1},
-			{ x: 0, y: 1},
+			{ x: 0, y: 0 },
+			{ x: 1, y: 1 },
+			{ x: 0, y: 1 },
 		])).toBe(false);
 	});
 
 	describe('same adjacent points', () => {
 		test('in the middle', () => {
 			expect(hasEqualConsecutiveVertices([
-				{ x: 0, y: 0},
-				{ x: 1, y: 1},
-				{ x: 1, y: 1},
-				{ x: 0, y: 1},
+				{ x: 0, y: 0 },
+				{ x: 1, y: 1 },
+				{ x: 1, y: 1 },
+				{ x: 0, y: 1 },
 			])).toBe(true);
 		});
 
 		test('in the top and bottom', () => {
 			expect(hasEqualConsecutiveVertices([
-				{ x: 0, y: 1},
-				{ x: 0, y: 0},
-				{ x: 1, y: 1},
-				{ x: 0, y: 1},
+				{ x: 0, y: 1 },
+				{ x: 0, y: 0 },
+				{ x: 1, y: 1 },
+				{ x: 0, y: 1 },
 			])).toBe(true);
 		});
 	});

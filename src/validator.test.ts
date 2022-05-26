@@ -99,7 +99,7 @@ test('empty entities', () => {
 });
 
 test('entity has to be in the proper format', () => {
-	[null, undefined, 1232132123.432432432, [], {}, 'estaioneariots'].forEach((trash) => {
+	[null, undefined, 1232132123.4324324, [], {}, 'estaioneariots'].forEach((trash) => {
 		expect(() => validateLevel({
 			...myLevel,
 			entities: [trash],
