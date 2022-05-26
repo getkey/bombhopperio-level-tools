@@ -16,6 +16,28 @@
 				}
 			}
 		},
+		"anchor": {
+			"allOf": [
+				{
+					"$ref": "#/definitions/point"
+				},
+				{
+					"type": "object",
+					"properties": {
+						"x": {
+							"type": "number",
+							"minimum": 0,
+							"maximum": 1
+						},
+						"y": {
+							"type": "number",
+							"minimum": 0,
+							"maximum": 1
+						}
+					}
+				}
+			]
+		},
 		"entity_base": {
 			"type": "object",
 			"additionalProperties": false,
@@ -162,7 +184,7 @@
 										}
 									}
 								},
-								"anchor": { "$ref": "#/definitions/point" },
+								"anchor": { "$ref": "#/definitions/anchor" },
 								"angle": {
 									"type": "number"
 								},
