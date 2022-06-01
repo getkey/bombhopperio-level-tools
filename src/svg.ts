@@ -53,7 +53,7 @@ export function levelToSvg(level: any): string {
 		return '';
 	});
 	return `<?xml version="1.0" standalone="no"?>
-<svg viewBox="${bounds.left} ${bounds.top} ${bounds.right - bounds.left} ${bounds.bottom - bounds.top}" xmlns="http://www.w3.org/2000/svg">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="${bounds.left} ${bounds.top} ${bounds.right - bounds.left} ${bounds.bottom - bounds.top}" preserveAspectRatio="xMidYMid meet">
 	<defs>
 		<style><![CDATA[
 			@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
