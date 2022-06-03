@@ -14,6 +14,13 @@ function verticesToSvgPoints(vertices: Array<any>): string {
 	return vertices.map((vertex: any) => `${vertex.x},${vertex.y}`).join(' ');
 }
 
+function opacityAttribute(opacity: number) {
+	if (opacity === 1 || opacity === undefined) {
+		return '';
+	}
+	return ` opacity="${opacity}"`;
+}
+
 export function levelToSvg(level: any): string {
 	const bounds = getBounds(level.entities);
 	const svgEntities = level.entities.map((entity: any) => {
@@ -39,7 +46,7 @@ export function levelToSvg(level: any): string {
 			case 'text': {
 				const textBounds = getTextBounds(entity);
 				// we are VERY careful to prevent XSS
-				return `<text y="${textBounds.top}" fill="white">
+				return `<text y="${textBounds.top}" fill="${entity.params.fillColor !== undefined ? `#${entity.params.fillColor.toString(16)}` : 'white'}"${opacityAttribute(entity.params.opacity)}>
 		${entity.params.copy.en.split('\n')
 		.map((line: string) => `<tspan x="${textBounds.left}" dy="1em">${escape(line)}</tspan>`)
 		.join('\n\t\t')
@@ -47,7 +54,7 @@ export function levelToSvg(level: any): string {
 	</text>`;
 			}
 			case 'paint': {
-				return `<polygon points="${verticesToSvgPoints(entity.params.vertices)}" fill="#${entity.params.fillColor.toString(16).padStart(6, '0')}"/>`;
+				return `<polygon points="${verticesToSvgPoints(entity.params.vertices)}" fill="#${entity.params.fillColor.toString(16).padStart(6, '0')}"${opacityAttribute(entity.params.opacity)}/>`;
 			}
 		}
 		return '';
