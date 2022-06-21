@@ -26,10 +26,10 @@ export function levelToSvg(level: any): string {
 	const svgEntities = level.entities.map((entity: any) => {
 		switch (entity.type) {
 			case 'player': {
-				return `<rect width="40" height="40" fill="yellow" x="${entity.params.x - 20}" y="${entity.params.y - 20}"/>`;
+				return `<use href="#hoppi" x="${entity.params.x}" y="${entity.params.y}"/>`;
 			}
 			case 'endpoint': {
-				return `<rect width="100" height="160" fill="green" x="${entity.params.x - 50}" y="${entity.params.y - 80}"/>`;
+				return `<use href="#door" x="${entity.params.x}" y="${entity.params.y}"/>`;
 			}
 			case 'normal':
 			case 'ice':
@@ -62,6 +62,17 @@ export function levelToSvg(level: any): string {
 	return `<?xml version="1.0" standalone="no"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="${bounds.left} ${bounds.top} ${bounds.right - bounds.left} ${bounds.bottom - bounds.top}" preserveAspectRatio="xMidYMid meet">
 	<defs>
+		<g id="hoppi">
+			<rect width="38" height="38" x="-19" y="-19" fill="#757a2b" stroke="#ffff14" stroke-width="2"/>
+			<rect width="3" height="10" x="-3" y="-9" fill="white"/>
+			<rect width="3" height="6" x="7" y="-6" fill="white"/>
+			<rect width="3" height="3" x="2" y="7" fill="white"/>
+		</g>
+		<g id="door" stroke="#7dff63" stroke-width="2">
+			<rect width="98" height="158" x="-49" y="-79" fill="green"/>
+			<polyline points="49,-79 19,-64 19,64 49,79" fill="none"/>
+			<line x1="28" y1="11" x2="28" y2="21" />
+		</g>
 		<style><![CDATA[
 			@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 			text {
@@ -71,5 +82,6 @@ export function levelToSvg(level: any): string {
 		]]></style> 
 	</defs>
 	${svgEntities.filter((svgEntity: string) => svgEntity !== '').join('\n\t')}
-</svg>`;
+</svg>
+`;
 }
