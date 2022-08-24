@@ -196,6 +196,10 @@
 								},
 								"fillColor": {
 									"$ref": "#/definitions/color"
+								},
+								"fontSize": {
+									"type": "integer",
+									"exclusiveMinimum": 0
 								}
 							}
 						}
