@@ -65,7 +65,8 @@
 		"opacity": {
 			"type": "number",
 			"minimum": 0,
-			"maximum": 1
+			"maximum": 1,
+			"default": 1
 		},
 		"block_entity": {
 			"allOf": [
@@ -86,7 +87,8 @@
 									"required": ["vertices"],
 									"properties": {
 										"isStatic": {
-											"type": "boolean"
+											"type": "boolean",
+											"default": false
 										},
 										"vertices": {
 											"$ref": "#/definitions/vertices"
@@ -99,7 +101,8 @@
 									"required": ["x", "y", "radius"],
 									"properties": {
 										"isStatic": {
-											"type": "boolean"
+											"type": "boolean",
+											"default": false
 										},
 										"x": {
 											"type": "number"
@@ -175,31 +178,32 @@
 								"copy": {
 									"type": "object",
 									"required": ["en"],
-									"additionalProperties": {
-										"type": "string"
-									},
-									"properties": {
-										"en": {
+									"patternProperties": {
+										"^[a-z]{2}$": {
 											"type": "string"
 										}
 									}
 								},
 								"anchor": { "$ref": "#/definitions/anchor" },
 								"angle": {
-									"type": "number"
+									"type": "number",
+									"default": 0
 								},
 								"opacity": {
 									"$ref": "#/definitions/opacity"
 								},
 								"align": {
-									"enum": ["left", "center", "right", "justify"]
+									"enum": ["left", "center", "right", "justify"],
+									"default": "left"
 								},
 								"fillColor": {
-									"$ref": "#/definitions/color"
+									"$ref": "#/definitions/color",
+									"default": 16777215
 								},
 								"fontSize": {
 									"type": "integer",
-									"exclusiveMinimum": 0
+									"exclusiveMinimum": 0,
+									"default": 16
 								}
 							}
 						}
@@ -233,7 +237,8 @@
 									"type": "boolean"
 								},
 								"rightFacing": {
-									"type": "boolean"
+									"type": "boolean",
+									"default": false
 								},
 								"angle": {
 									"type": "number"
@@ -273,10 +278,8 @@
 											"type": "number"
 										},
 										"isStatic": {
-											"type": "boolean"
-										},
-										"rightFacing": {
-											"type": "boolean"
+											"type": "boolean",
+											"default": false
 										},
 										"angle": {
 											"type": "number"
@@ -301,10 +304,8 @@
 											"type": "number"
 										},
 										"isStatic": {
-											"type": "boolean"
-										},
-										"rightFacing": {
-											"type": "boolean"
+											"type": "boolean",
+											"default": false
 										},
 										"angle": {
 											"type": "number"
