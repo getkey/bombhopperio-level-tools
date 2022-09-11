@@ -1,4 +1,8 @@
+import { AnySchemaObject } from 'ajv';
+import { DataValidationCxt } from 'ajv/dist/types';
+
 import { round } from './utils/math';
+import { createLevelValidator } from './validator';
 
 interface Point {
 	x: number;
@@ -13,31 +17,8 @@ function optimizePoint(point: Point, digits: number): void {
 function optimizeEntity(entity: any): void {
 	optimizeGeometry(entity.params);
 
-	if (entity.params.isStatic === false) {
-		delete entity.params.isStatic;
-	}
-
 	if ('opacity' in entity.params) {
-		if (entity.params.opacity === 1) {
-			delete entity.params.opacity;
-		} else {
-			entity.params.opacity = round(entity.params.opacity, 2);
-		}
-	}
-
-	switch (entity.type) {
-		case 'endpoint': {
-			if (entity.params.rightFacing === false) {
-				delete entity.params.rightFacing;
-			}
-			break;
-		}
-		case 'paint': {
-			if (entity.params.fillColor === 0xffffff) {
-				delete entity.params.fillColor;
-			}
-			break;
-		}
+		entity.params.opacity = round(entity.params.opacity, 2);
 	}
 }
 
@@ -57,6 +38,9 @@ function optimizeGeometry(params: any, digits = 3): void {
 
 export function optimizeLevel(level: any): any {
 	level.entities.forEach((entity: any) => optimizeEntity(entity));
+
+	const levelValidator = createLevelValidator();
+	levelValidator(level);
 
 	return level;
 }

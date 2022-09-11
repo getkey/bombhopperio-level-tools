@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types */
 
-import Ajv, { FuncKeywordDefinition } from 'ajv';
+import Ajv, { AnySchemaObject, FuncKeywordDefinition, ValidateFunction } from 'ajv';
+import { DataValidationCxt } from 'ajv/dist/types';
 import addFormats from 'ajv-formats';
 
 import levelSchema from './level.schema.json';
@@ -68,8 +69,32 @@ ajv.addKeyword({
 	validate: orderValidator,
 });
 
-const levelValidator = ajv
-	.compile<Level>(levelSchema);
+export function createLevelValidator(options?: { optimize?: boolean }): ValidateFunction {
+	const finalOptions = {
+		...options,
+		optimize: false,
+	};
+	if (finalOptions.optimize) {
+		// see https://github.com/ajv-validator/ajv/issues/715
+		ajv.removeKeyword('default');
+		ajv.addKeyword({
+			keyword: 'default',
+			modifying: true,
+			validate: (defaultValue: any, value: any, parentSchema?: AnySchemaObject, dataCtx?: DataValidationCxt) => {
+				if (dataCtx === undefined) return true;
+
+				if (value === defaultValue) {
+					delete dataCtx.parentData[dataCtx.parentDataProperty];
+				}
+
+				return true;
+			},
+		});
+	}
+	return ajv.compile<Level>(levelSchema);
+}
+
+const levelValidator = createLevelValidator();
 const prefabValidator = ajv
 	.compile<Prefab>(prefabSchema);
 

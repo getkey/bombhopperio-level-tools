@@ -36,7 +36,6 @@ switch(process.argv[2]) {
 		}
 		process.argv.slice(3).forEach((path) => {
 			const file = JSON.parse(readFileSync(path, 'utf-8'));
-			validateLevel(file);
 			optimizeLevel(file);
 			writeFileSync(path, JSON.stringify(file, null, '\t'));
 			validateLevel(file);
